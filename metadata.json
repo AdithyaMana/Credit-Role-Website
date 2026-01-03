@@ -1,0 +1,5 @@
+{
+  "name": "CRediT Taxonomy Visualizer",
+  "description": "A scientific data visualization tool for the CRediT (Contributor Roles Taxonomy) using an interactive hexagonal grid.",
+  "requestFramePermissions": []
+}
