@@ -5,9 +5,10 @@ import { CategoryType, CreditRole } from '../types';
 import clsx from 'clsx';
 import { X, ChevronRight, Info, CheckCircle, Eye, ArrowRight } from 'lucide-react';
 import ShowcaseModal from './ShowcaseModal'; 
-import scienceUxLogo from './scienceux-logo.png'; // <--- IMPORT ADDED
+import AboutModal from './AboutModal';
+import scienceUxLogo from './scienceux-logo.png'; 
 
-// --- Visual Helpers ---
+// --- Visual Helpers (Keep these as they are) ---
 const getTheme = (category: CategoryType) => {
   switch (category) {
     case CategoryType.STRATEGY:
@@ -104,6 +105,7 @@ const DetailDrawer: React.FC<{ role: CreditRole | null; onClose: () => void }> =
 export const MobileLayout: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<CreditRole | null>(null);
   const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
   
   const categories = [CategoryType.STRATEGY, CategoryType.INVESTIGATION, CategoryType.INFRASTRUCTURE, CategoryType.DISSEMINATION];
 
@@ -111,89 +113,89 @@ export const MobileLayout: React.FC = () => {
     <div className="min-h-screen bg-slate-50 font-sans pb-12">
       
       <ShowcaseModal isOpen={isShowcaseOpen} onClose={() => setIsShowcaseOpen(false)} />
+      <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
 
-      {/* App Header */}
-      <header className="bg-white px-5 py-4 border-b border-slate-200 shadow-sm sticky top-0 z-30 flex flex-col gap-4">
-         <div className="w-32">
-            {/* USE VARIABLE HERE */}
-            <img src={scienceUxLogo} alt="ScienceUX" className="w-full h-auto" />
+      {/* --- TRANSPARENT FLOATING HEADER --- */}
+      <header className="px-4 py-4 sticky top-0 z-40 flex items-center justify-between pointer-events-none">
+         <div className="w-20 shrink-0 pointer-events-auto">
+            <img src={scienceUxLogo} alt="ScienceUX" className="w-full h-auto opacity-80" />
          </div>
-         <div className="flex items-end justify-between">
-           <div className="flex flex-col border-l-4 border-indigo-600 pl-3">
-              <h1 className="text-xl font-bold text-slate-900 tracking-tight leading-none">CRediT Role Icons</h1>
-              <p className="text-[10px] text-slate-500 font-bold tracking-[0.2em] uppercase mt-1">Contributor Roles Taxonomy</p>
-            </div>
-            
+
+         <div className="flex gap-2 shrink-0 pointer-events-auto">
+            <button 
+              onClick={() => setIsAboutOpen(true)}
+              className="p-2 bg-white border border-slate-200 text-slate-400 rounded-full hover:text-indigo-600 transition-colors shadow-sm"
+              aria-label="About Project"
+            >
+              <Info size={18} />
+            </button>
+
             <button 
               onClick={() => setIsShowcaseOpen(true)}
-              className="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-colors"
+              className="p-2 bg-white border border-slate-200 text-slate-400 rounded-full hover:text-indigo-600 transition-colors shadow-sm"
               aria-label="View CRediT Roles"
             >
-              <Eye size={20} />
+              <Eye size={18} />
             </button>
-          </div>
+         </div>
       </header>
 
-      <main className="flex flex-col md:px-6 md:py-6 md:gap-8">
+      <main className="flex flex-col">
+        
+        {/* --- LARGER CENTERED TITLE SECTION --- */}
+        <div className="text-center pt-4 pb-12 px-6">
+           <motion.div 
+             initial={{ opacity: 0, y: 10 }}
+             animate={{ opacity: 1, y: 0 }}
+             className="flex flex-col items-center"
+           >
+             <h1 className="text-4xl font-bold text-slate-900 tracking-tight leading-tight">
+               CRediT Role Icons
+             </h1>
+             <p className="text-[10px] text-slate-400 font-bold tracking-[0.25em] uppercase mt-3">
+               Contributor Roles Taxonomy
+             </p>
+           </motion.div>
+        </div>
+
         {categories.map((cat) => {
           const theme = getTheme(cat);
           const catRoles = creditRoles.filter(r => r.category === cat);
           
           return (
-            <div key={cat} className="relative md:rounded-3xl md:bg-white md:p-1 md:shadow-sm md:border md:border-slate-200/60">
+            <div key={cat} className="relative">
               
               {/* Category Header */}
+              {/* Sticky top is smaller now since the header has no background height */}
               <div className={clsx(
-                "px-5 py-3 flex items-center gap-3 font-bold text-xs uppercase tracking-widest transition-all",
-                // Mobile: Sticky Strip with backdrop
-                "sticky top-[105px] z-20 border-y md:border-none bg-slate-50/95 backdrop-blur-sm",
-                // Tablet: Static, clean header inside the box
-                "md:bg-transparent md:static md:z-auto md:text-sm md:mb-2 md:mt-2 md:px-4",
+                "px-5 py-3 flex items-center gap-3 font-bold text-[10px] uppercase tracking-widest transition-all",
+                "sticky top-0 z-30 border-y bg-slate-50/95 backdrop-blur-sm",
                 theme.header, 
                 "border-slate-200"
               )}>
-                 <div className={clsx("w-2.5 h-2.5 rounded-full ring-2 ring-white shadow-sm", theme.accent)} />
+                 <div className={clsx("w-2 h-2 rounded-full", theme.accent)} />
                  {cat}
               </div>
 
-              {/* Grid Layout */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0 md:gap-4 md:px-4 md:pb-4 bg-white md:bg-transparent">
+              <div className="grid grid-cols-1 bg-white">
                 {catRoles.map((role) => (
                   <motion.div 
                     key={role.id} 
                     onClick={() => setSelectedRole(role)} 
                     whileTap={{ scale: 0.98 }}
-                    className={clsx(
-                      "group relative flex items-center gap-4 cursor-pointer transition-all duration-200",
-                      // Mobile: List item styles
-                      "px-5 py-4 border-b border-slate-100 last:border-0 hover:bg-slate-50 active:bg-slate-100",
-                      // Tablet: Card styles
-                      "md:border md:border-slate-200 md:rounded-2xl md:bg-white md:hover:border-indigo-300/50 md:hover:shadow-md md:hover:-translate-y-0.5 md:p-5 md:h-full md:items-start"
-                    )}
+                    className="group relative flex items-center gap-4 px-5 py-5 border-b border-slate-100 last:border-0 active:bg-slate-50"
                   >
-                    {/* Icon */}
                     <div className="flex-shrink-0">
-                       <ListHexIcon role={role} className="w-10 h-12 md:w-12 md:h-14" /> 
+                       <ListHexIcon role={role} className="w-10 h-12" /> 
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-slate-800 text-[15px] md:text-lg leading-tight md:mb-2 group-hover:text-indigo-700 transition-colors">
+                      <h3 className="font-bold text-slate-800 text-[16px] leading-tight">
                         {role.title}
                       </h3>
-                      
-                      {/* Description visible only on Tablet+ */}
-                      <p className="hidden md:block text-sm text-slate-500 font-serif leading-relaxed line-clamp-2">
-                        {role.description}
-                      </p>
                     </div>
 
-                    {/* Chevron (Mobile Only) */}
-                    <ChevronRight size={18} className="text-slate-300 md:hidden" />
-                    
-                    {/* Tablet Hover Indicator (Arrow) */}
-                    <div className="hidden md:flex absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-all text-indigo-400 group-hover:translate-x-1">
-                      <ArrowRight size={18} />
-                    </div>
+                    <ChevronRight size={18} className="text-slate-300" />
                   </motion.div>
                 ))}
               </div>
