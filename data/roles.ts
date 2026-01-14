@@ -1,18 +1,18 @@
 import { 
   Lightbulb, 
   Database, 
-  Search, 
-  Wallet, 
+  Calculator, 
+  DollarSign, 
   Microscope, 
-  GitMerge, 
-  Briefcase, 
+  GitCompareArrows, 
+  FolderTree, 
   Box, 
   Code, 
-  Users, 
+  Eye, 
   CheckCircle2, 
-  Presentation, 
-  PenTool, 
-  FileEdit 
+  BarChart3, 
+  Pencil, 
+  MessageSquareText 
 } from 'lucide-react';
 import { CategoryType, CreditRole } from '../types';
 
@@ -36,7 +36,7 @@ export const creditRoles: CreditRole[] = [
     title: 'Funding Acquisition',
     description: 'Acquisition of the financial support for the project leading to this publication.',
     category: CategoryType.STRATEGY,
-    icon: Wallet,
+    icon: DollarSign,
     examples: [
       'Writing grant proposals',
       'Securing research fellowships',
@@ -49,7 +49,7 @@ export const creditRoles: CreditRole[] = [
     title: 'Project Administration',
     description: 'Management and coordination responsibility for the research activity planning and execution.',
     category: CategoryType.STRATEGY,
-    icon: Briefcase,
+    icon: FolderTree,
     examples: [
       'Managing the research team',
       'Coordinating study activities',
@@ -62,7 +62,7 @@ export const creditRoles: CreditRole[] = [
     title: 'Supervision',
     description: 'Oversight and leadership responsibility for the research activity planning and execution, including mentorship external to the core team.',
     category: CategoryType.STRATEGY,
-    icon: Users,
+    icon: Eye,
     examples: [
       'Mentoring junior researchers',
       'Providing strategic direction',
@@ -90,7 +90,7 @@ export const creditRoles: CreditRole[] = [
     title: 'Formal Analysis',
     description: 'Application of statistical, mathematical, computational, or other formal techniques to analyze or synthesize study data.',
     category: CategoryType.INVESTIGATION,
-    icon: Search,
+    icon: Calculator,
     examples: [
       'Running statistical tests',
       'Mathematical modeling',
@@ -116,7 +116,7 @@ export const creditRoles: CreditRole[] = [
     title: 'Methodology',
     description: 'Development or design of methodology; creation of models.',
     category: CategoryType.INVESTIGATION,
-    icon: GitMerge,
+    icon: GitCompareArrows,
     examples: [
       'Designing experimental protocols',
       'Developing new models',
@@ -172,7 +172,7 @@ export const creditRoles: CreditRole[] = [
     title: 'Visualization',
     description: 'Preparation, creation and/or presentation of the published work, specifically visualization/data presentation.',
     category: CategoryType.DISSEMINATION,
-    icon: Presentation,
+    icon: BarChart3,
     examples: [
       'Creating charts and graphs',
       'Designing diagrams',
@@ -185,7 +185,7 @@ export const creditRoles: CreditRole[] = [
     title: 'Writing - Original Draft',
     description: 'Preparation, creation and/or presentation of the published work, specifically writing the initial draft (including substantive translation).',
     category: CategoryType.DISSEMINATION,
-    icon: PenTool,
+    icon: Pencil,
     examples: [
       'Writing the first draft',
       'Drafting the manuscript structure',
@@ -198,7 +198,7 @@ export const creditRoles: CreditRole[] = [
     title: 'Writing - Review & Editing',
     description: 'Preparation, creation and/or presentation of the published work by those from the original research group, specifically critical review, commentary or revision – including pre- or post-publication stages.',
     category: CategoryType.DISSEMINATION,
-    icon: FileEdit,
+    icon: MessageSquareText,
     examples: [
       'Critical review of the draft',
       'Editing for content and flow',
