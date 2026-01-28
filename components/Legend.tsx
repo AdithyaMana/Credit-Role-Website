@@ -4,7 +4,7 @@ import { CategoryType } from '../types';
 const Legend: React.FC = () => {
   const items = [
     { label: CategoryType.STRATEGY, color: 'bg-strategy' },
-    { label: CategoryType.INVESTIGATION, color: 'bg-investigation' },
+    { label: CategoryType.RESEARCH, color: 'bg-research' },
     { label: CategoryType.INFRASTRUCTURE, color: 'bg-infrastructure' },
     { label: CategoryType.DISSEMINATION, color: 'bg-dissemination' },
   ];

@@ -11,7 +11,7 @@ interface DetailPanelProps {
 const getCategoryColorText = (category: CategoryType) => {
   switch (category) {
     case CategoryType.STRATEGY: return 'text-indigo-500';
-    case CategoryType.INVESTIGATION: return 'text-teal-500';
+    case CategoryType.RESEARCH: return 'text-teal-500';
     case CategoryType.INFRASTRUCTURE: return 'text-slate-500';
     case CategoryType.DISSEMINATION: return 'text-orange-500';
     default: return 'text-slate-500';
@@ -22,7 +22,7 @@ const getHexStyles = (category: CategoryType) => {
   switch (category) {
     case CategoryType.STRATEGY: 
       return { fill: 'fill-indigo-50', stroke: 'stroke-indigo-200', text: 'text-indigo-500', marker: 'text-indigo-400' };
-    case CategoryType.INVESTIGATION: 
+    case CategoryType.RESEARCH: 
       return { fill: 'fill-teal-50', stroke: 'stroke-teal-200', text: 'text-teal-500', marker: 'text-teal-400' };
     case CategoryType.INFRASTRUCTURE: 
       return { fill: 'fill-slate-100', stroke: 'stroke-slate-300', text: 'text-slate-500', marker: 'text-slate-400' };

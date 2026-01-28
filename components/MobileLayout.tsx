@@ -6,14 +6,14 @@ import clsx from 'clsx';
 import { X, ChevronRight, Info, CheckCircle, Eye, ArrowRight } from 'lucide-react';
 import ShowcaseModal from './ShowcaseModal'; 
 import AboutModal from './AboutModal';
-import scienceUxLogo from './scienceux-logo.png'; 
+import ScienceUXLogo from './ScienceUXLogo';
 
-// --- Visual Helpers (Keep these as they are) ---
+// --- Theme and Icon Helpers ---
 const getTheme = (category: CategoryType) => {
   switch (category) {
     case CategoryType.STRATEGY:
       return { text: 'text-indigo-500', bg: 'bg-indigo-50', border: 'border-indigo-200', header: 'text-indigo-900', hexFill: '#EEF2FF', hexStroke: '#818CF8', accent: 'bg-indigo-500', bullet: 'bg-indigo-400' };
-    case CategoryType.INVESTIGATION:
+    case CategoryType.RESEARCH:
       return { text: 'text-teal-500', bg: 'bg-teal-50', border: 'border-teal-200', header: 'text-teal-900', hexFill: '#F0FDFA', hexStroke: '#2DD4BF', accent: 'bg-teal-500', bullet: 'bg-teal-400' };
     case CategoryType.INFRASTRUCTURE:
       return { text: 'text-slate-500', bg: 'bg-slate-50', border: 'border-slate-200', header: 'text-slate-900', hexFill: '#F8FAFC', hexStroke: '#94A3B8', accent: 'bg-slate-500', bullet: 'bg-slate-400' };
@@ -37,6 +37,8 @@ const ListHexIcon: React.FC<{ role: CreditRole; className?: string }> = ({ role,
   );
 };
 
+// --- Mobile Drawer Components ---
+
 const DrawerHexIcon: React.FC<{ role: CreditRole }> = ({ role }) => {
   const theme = getTheme(role.category);
   const Icon = role.icon;
@@ -58,12 +60,11 @@ const DetailDrawer: React.FC<{ role: CreditRole | null; onClose: () => void }> =
     return () => { document.body.style.overflow = 'unset'; };
   }, [role]);
 
-  if (!role) return null;
-  const theme = getTheme(role.category);
+  const theme = role ? getTheme(role.category) : null;
 
   return (
     <AnimatePresence>
-      {role && (
+      {role && theme && (
         <>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50" />
           <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 300 }} className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] flex flex-col max-h-[85vh]">
@@ -102,57 +103,53 @@ const DetailDrawer: React.FC<{ role: CreditRole | null; onClose: () => void }> =
   );
 };
 
+// --- Main Layout ---
+
 export const MobileLayout: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<CreditRole | null>(null);
   const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   
-  const categories = [CategoryType.STRATEGY, CategoryType.INVESTIGATION, CategoryType.INFRASTRUCTURE, CategoryType.DISSEMINATION];
+  const categories = [CategoryType.STRATEGY, CategoryType.RESEARCH, CategoryType.INFRASTRUCTURE, CategoryType.DISSEMINATION];
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans pb-12">
-      
       <ShowcaseModal isOpen={isShowcaseOpen} onClose={() => setIsShowcaseOpen(false)} />
       <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
 
-      {/* --- TRANSPARENT FLOATING HEADER --- */}
-      <header className="px-4 py-4 sticky top-0 z-40 flex items-center justify-between pointer-events-none">
-         <div className="w-20 shrink-0 pointer-events-auto">
-            <img src={scienceUxLogo} alt="ScienceUX" className="w-full h-auto opacity-80" />
+      {/* --- RESPONSIVE HEADER --- */}
+      <header className="px-6 py-6 md:py-8 sticky top-0 z-40 flex items-center justify-between pointer-events-none">
+         <div className="w-32 md:w-48 shrink-0 pointer-events-auto transition-all duration-300">
+            <ScienceUXLogo className="w-full h-auto drop-shadow-sm" />
          </div>
 
-         <div className="flex gap-2 shrink-0 pointer-events-auto">
+         <div className="flex gap-3 shrink-0 pointer-events-auto">
             <button 
               onClick={() => setIsAboutOpen(true)}
-              className="p-2 bg-white border border-slate-200 text-slate-400 rounded-full hover:text-indigo-600 transition-colors shadow-sm"
+              className="p-3 bg-white/80 backdrop-blur border border-slate-200 text-slate-500 rounded-full hover:text-indigo-600 transition-all shadow-sm"
               aria-label="About Project"
             >
-              <Info size={18} />
+              <Info size={20} />
             </button>
-
             <button 
               onClick={() => setIsShowcaseOpen(true)}
-              className="p-2 bg-white border border-slate-200 text-slate-400 rounded-full hover:text-indigo-600 transition-colors shadow-sm"
+              className="p-3 bg-white/80 backdrop-blur border border-slate-200 text-slate-500 rounded-full hover:text-indigo-600 transition-all shadow-sm"
               aria-label="View CRediT Roles"
             >
-              <Eye size={18} />
+              <Eye size={20} />
             </button>
          </div>
       </header>
 
-      <main className="flex flex-col">
+      <main className="max-w-6xl mx-auto px-0 md:px-6">
         
-        {/* --- LARGER CENTERED TITLE SECTION --- */}
-        <div className="text-center pt-4 pb-12 px-6">
-           <motion.div 
-             initial={{ opacity: 0, y: 10 }}
-             animate={{ opacity: 1, y: 0 }}
-             className="flex flex-col items-center"
-           >
-             <h1 className="text-4xl font-bold text-slate-900 tracking-tight leading-tight">
+        {/* --- TITLE SECTION --- */}
+        <div className="text-center pt-2 pb-10 md:pb-16 px-6">
+           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+             <h1 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight leading-tight">
                CRediT Role Icons
              </h1>
-             <p className="text-[10px] text-slate-400 font-bold tracking-[0.25em] uppercase mt-3">
+             <p className="text-[10px] md:text-xs text-slate-400 font-bold tracking-[0.3em] uppercase mt-4">
                Contributor Roles Taxonomy
              </p>
            </motion.div>
@@ -163,47 +160,51 @@ export const MobileLayout: React.FC = () => {
           const catRoles = creditRoles.filter(r => r.category === cat);
           
           return (
-            <div key={cat} className="relative">
-              
-              {/* Category Header */}
-              {/* Sticky top is smaller now since the header has no background height */}
+            <section key={cat} className="mb-8 md:mb-16">
               <div className={clsx(
-                "px-5 py-3 flex items-center gap-3 font-bold text-[10px] uppercase tracking-widest transition-all",
-                "sticky top-0 z-30 border-y bg-slate-50/95 backdrop-blur-sm",
-                theme.header, 
-                "border-slate-200"
+                "px-6 py-4 flex items-center gap-3 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] transition-all",
+                "sticky top-0 md:static z-30 border-y md:border-none bg-slate-50/95 backdrop-blur-sm md:bg-transparent",
+                theme.header
               )}>
-                 <div className={clsx("w-2 h-2 rounded-full", theme.accent)} />
-                 {cat}
+                <div className={clsx("w-2.5 h-2.5 rounded-full shadow-sm", theme.accent)} />
+                {cat}
               </div>
 
-              <div className="grid grid-cols-1 bg-white">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-4 bg-white md:bg-transparent">
                 {catRoles.map((role) => (
                   <motion.div 
                     key={role.id} 
                     onClick={() => setSelectedRole(role)} 
                     whileTap={{ scale: 0.98 }}
-                    className="group relative flex items-center gap-4 px-5 py-5 border-b border-slate-100 last:border-0 active:bg-slate-50"
+                    className={clsx(
+                      "group relative flex items-center gap-5 cursor-pointer transition-all",
+                      "px-6 py-6 border-b border-slate-100 last:border-0 active:bg-slate-50",
+                      "md:border md:border-slate-200 md:rounded-3xl md:bg-white md:shadow-sm md:hover:shadow-md md:hover:border-slate-300 md:mb-0"
+                    )}
                   >
                     <div className="flex-shrink-0">
-                       <ListHexIcon role={role} className="w-10 h-12" /> 
+                       <ListHexIcon role={role} className="w-12 h-14" /> 
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-slate-800 text-[16px] leading-tight">
+                      <h3 className="font-bold text-slate-800 text-lg leading-tight group-hover:text-indigo-600 transition-colors">
                         {role.title}
                       </h3>
+                      <p className="hidden md:block text-slate-500 text-sm mt-1 line-clamp-1 opacity-70">
+                        {role.description}
+                      </p>
                     </div>
 
-                    <ChevronRight size={18} className="text-slate-300" />
+                    <ChevronRight size={20} className="text-slate-300 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
                   </motion.div>
                 ))}
               </div>
-            </div>
+            </section>
           );
         })}
       </main>
 
+      {/* --- DRAWER FOR MOBILE DETAIL VIEW --- */}
       <DetailDrawer role={selectedRole} onClose={() => setSelectedRole(null)} />
     </div>
   );

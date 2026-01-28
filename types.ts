@@ -2,7 +2,7 @@ import { LucideIcon } from 'lucide-react';
 
 export enum CategoryType {
   STRATEGY = 'Strategy & Leadership',
-  INVESTIGATION = 'Investigation & Data',
+  RESEARCH = 'Research & Data',
   INFRASTRUCTURE = 'Infrastructure',
   DISSEMINATION = 'Dissemination'
 }

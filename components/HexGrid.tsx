@@ -72,7 +72,7 @@ const ConnectorLabel: React.FC<{
 const HexGrid: React.FC<HexGridProps> = ({ selectedId, onSelect, onHover }) => {
   const sortedRoles = [
     ...creditRoles.filter(r => r.category === CategoryType.STRATEGY),
-    ...creditRoles.filter(r => r.category === CategoryType.INVESTIGATION),
+    ...creditRoles.filter(r => r.category === CategoryType.RESEARCH),
     ...creditRoles.filter(r => r.category === CategoryType.INFRASTRUCTURE),
     ...creditRoles.filter(r => r.category === CategoryType.DISSEMINATION),
   ];
@@ -97,11 +97,11 @@ const HexGrid: React.FC<HexGridProps> = ({ selectedId, onSelect, onHover }) => {
         lineType="top-down"
       />
       
-      {/* Investigation: Right Side (Row 3 - Middle) 
+      {/* Research: Right Side (Row 3 - Middle) 
           Adjusted position to be tighter to the grid
       */}
       <ConnectorLabel 
-        text="Investigation" 
+        text="Research & Data" 
         position="top-1/2 -right-8 translate-x-full -translate-y-1/2"
         colorClass="text-teal-500"
         lineType="right-left"

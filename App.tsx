@@ -7,7 +7,7 @@ import AboutModal from './components/AboutModal';
 import { CreditRole } from './types';
 import { creditRoles } from './data/roles';
 import { Eye, Info } from 'lucide-react';
-import scienceUxLogo from './components/scienceux-logo.png'; 
+import ScienceUXLogo from './components/ScienceUXLogo';
 
 const App: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<CreditRole | null>(creditRoles[0]);
@@ -37,7 +37,7 @@ const App: React.FC = () => {
           
           <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-8 py-8 pointer-events-none">
              <div className="pointer-events-auto">
-                <img src={scienceUxLogo} alt="ScienceUX" className="h-10 w-auto opacity-100" />
+                <ScienceUXLogo className="h-10 w-auto opacity-100" />
              </div>
 
              <div className="flex items-center gap-3 pointer-events-auto">

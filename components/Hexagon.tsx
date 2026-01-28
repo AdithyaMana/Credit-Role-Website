@@ -14,7 +14,7 @@ interface HexagonProps {
 // Pastel Palette (Idle Backgrounds)
 const CATEGORY_COLORS = {
   [CategoryType.STRATEGY]: '#A5B4FC', // Indigo 300
-  [CategoryType.INVESTIGATION]: '#5EEAD4', // Teal 300
+  [CategoryType.RESEARCH]: '#5EEAD4', // Teal 300
   [CategoryType.INFRASTRUCTURE]: '#CBD5E1', // Slate 300
   [CategoryType.DISSEMINATION]: '#FDBA74', // Orange 300
 };
@@ -22,7 +22,7 @@ const CATEGORY_COLORS = {
 // Bold Palette (Hover/Active Backgrounds - 400 versions)
 const CATEGORY_BOLD_COLORS = {
   [CategoryType.STRATEGY]: '#818CF8',      // Indigo 400
-  [CategoryType.INVESTIGATION]: '#2DD4BF', // Teal 400
+  [CategoryType.RESEARCH]: '#2DD4BF', // Teal 400
   [CategoryType.INFRASTRUCTURE]: '#94A3B8',// Slate 400
   [CategoryType.DISSEMINATION]: '#FB923C', // Orange 400
 };

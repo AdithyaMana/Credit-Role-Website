@@ -76,7 +76,7 @@ export const creditRoles: CreditRole[] = [
     id: 'data-curation',
     title: 'Data Curation',
     description: 'Management activities to annotate (produce metadata), scrub data and maintain research data (including software code, where it is necessary for interpreting the data) for initial use and later reuse.',
-    category: CategoryType.INVESTIGATION,
+    category: CategoryType.RESEARCH,
     icon: Database,
     examples: [
       'Producing metadata',
@@ -89,7 +89,7 @@ export const creditRoles: CreditRole[] = [
     id: 'formal-analysis',
     title: 'Formal Analysis',
     description: 'Application of statistical, mathematical, computational, or other formal techniques to analyze or synthesize study data.',
-    category: CategoryType.INVESTIGATION,
+    category: CategoryType.RESEARCH,
     icon: Calculator,
     examples: [
       'Running statistical tests',
@@ -102,7 +102,7 @@ export const creditRoles: CreditRole[] = [
     id: 'investigation',
     title: 'Investigation',
     description: 'Conducting a research and investigation process, specifically performing the experiments, or data/evidence collection.',
-    category: CategoryType.INVESTIGATION,
+    category: CategoryType.RESEARCH,
     icon: Microscope,
     examples: [
       'Performing laboratory experiments',
@@ -115,7 +115,7 @@ export const creditRoles: CreditRole[] = [
     id: 'methodology',
     title: 'Methodology',
     description: 'Development or design of methodology; creation of models.',
-    category: CategoryType.INVESTIGATION,
+    category: CategoryType.RESEARCH,
     icon: GitCompareArrows,
     examples: [
       'Designing experimental protocols',
@@ -128,7 +128,7 @@ export const creditRoles: CreditRole[] = [
     id: 'validation',
     title: 'Validation',
     description: 'Verification, whether as a part of the activity or separate, of the overall replication/reproducibility of results/experiments and other research outputs.',
-    category: CategoryType.INVESTIGATION,
+    category: CategoryType.RESEARCH,
     icon: CheckCircle2,
     examples: [
       'Replicating experiments',
