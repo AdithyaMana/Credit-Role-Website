@@ -24,6 +24,10 @@ const CONTRIBUTORS = [
   { id: 'sp', name: 'Steve Purves', affs: [3], roles: ['conceptualization'] },
   { id: 'sr', name: 'Swetha Ramaswamy', affs: [3], roles: ['conceptualization', 'methodology'] },
   { id: 'th', name: 'Thurstan Hethorn', affs: [3], roles: ['conceptualization', 'methodology'] },
+  { id: 'as2', name: 'Anna Schäfer', affs: [1], roles: ['conceptualization'] },
+  { id: 'lm', name: 'Leonardo Marcazzan', affs: [2], roles: ['conceptualization'] },
+  { id: 'vs', name: 'Vanessa Schendel', affs: [3], roles: ['conceptualization'] },
+  { id: 'jd', name: 'Jack Duncan', affs: [1], roles: ['conceptualization'] },
 ];
 
 const AFFILIATIONS = {
