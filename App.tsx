@@ -8,7 +8,7 @@ import { CreditRole } from './types';
 import { creditRoles } from './data/roles';
 import { Eye, Info, Download } from 'lucide-react';
 import scienceUXLogoUrl from './assets/scienceux-logo.png';
-import spreadsheetUrl from './assets/iconspreadsheetpng.png';
+import spreadsheetUrl from './assets/icon-spreadsheet.png';
 
 const App: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<CreditRole | null>(creditRoles[0]);

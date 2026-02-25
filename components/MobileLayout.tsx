@@ -5,7 +5,7 @@ import { CategoryType, CreditRole } from '../types';
 import clsx from 'clsx';
 import { X, ChevronRight, Info, CheckCircle, Eye, ArrowRight, Download } from 'lucide-react';
 import scienceUXLogoUrl from '../assets/scienceux-logo.png';
-import spreadsheetUrl from '../assets/iconspreadsheetpng.png';
+import spreadsheetUrl from '../assets/icon-spreadsheet.png';
 
 // --- Theme and Icon Helpers ---
 const getTheme = (category: CategoryType) => {
