@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { creditRoles } from '../data/roles';
-import { CategoryType, CreditRole } from '../types';
-import clsx from 'clsx';
 import { X, ChevronRight, Info, CheckCircle, Eye, ArrowRight, Download } from 'lucide-react';
+import scienceUXLogoUrl from '../assets/scienceux-logo.png';
 
 // --- Theme and Icon Helpers ---
 const getTheme = (category: CategoryType) => {
@@ -158,8 +157,10 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ onOpenShowcase, onOp
     <div className="min-h-screen bg-slate-50 font-sans pb-12">
       {/* --- RESPONSIVE HEADER --- */}
       <header className="px-6 py-6 md:py-8 sticky top-0 z-40 flex items-center justify-between pointer-events-none">
-        <div className="w-32 md:w-48 shrink-0 pointer-events-auto transition-all duration-300">
-          <img src="/scienceux-logo.png" alt="ScienceUX Logo" className="w-full h-auto drop-shadow-sm" />
+        <div className="flex flex-col gap-6 items-center px-6 mt-8 mb-4">
+          <div className="w-56 overflow-hidden flex items-center justify-center">
+            <img src={scienceUXLogoUrl} alt="ScienceUX Logo" className="w-full h-auto drop-shadow-sm" />
+          </div>
         </div>
 
         <div className="flex gap-2 shrink-0 pointer-events-auto">
