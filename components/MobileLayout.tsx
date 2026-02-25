@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { creditRoles } from '../data/roles';
+import { CategoryType, CreditRole } from '../types';
+import clsx from 'clsx';
 import { X, ChevronRight, Info, CheckCircle, Eye, ArrowRight, Download } from 'lucide-react';
 import scienceUXLogoUrl from '../assets/scienceux-logo.png';
 
