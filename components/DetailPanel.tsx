@@ -2,11 +2,28 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CreditRole, CategoryType } from '../types';
 import clsx from 'clsx';
-import { Info, Hexagon as HexIcon, CheckCircle } from 'lucide-react';
+import { Info, Hexagon as HexIcon, CheckCircle, Download } from 'lucide-react';
 
 interface DetailPanelProps {
   role: CreditRole | null;
 }
+
+const ICON_URLS: Record<string, string> = {
+  'conceptualization': 'https://lucide.dev/icons/lightbulb',
+  'funding-acquisition': 'https://lucide.dev/icons/dollar-sign',
+  'project-admin': 'https://lucide.dev/icons/folder-tree',
+  'supervision': 'https://lucide.dev/icons/eye',
+  'data-curation': 'https://lucide.dev/icons/database',
+  'formal-analysis': 'https://lucide.dev/icons/calculator',
+  'investigation': 'https://lucide.dev/icons/microscope',
+  'methodology': 'https://lucide.dev/icons/git-compare-arrows',
+  'validation': 'https://lucide.dev/icons/circle-check',
+  'resources': 'https://lucide.dev/icons/box',
+  'software': 'https://lucide.dev/icons/code',
+  'visualization': 'https://lucide.dev/icons/chart-bar',
+  'writing-original': 'https://lucide.dev/icons/pencil',
+  'writing-review': 'https://lucide.dev/icons/message-square-text'
+};
 
 const getCategoryColorText = (category: CategoryType) => {
   switch (category) {
@@ -20,15 +37,15 @@ const getCategoryColorText = (category: CategoryType) => {
 
 const getHexStyles = (category: CategoryType) => {
   switch (category) {
-    case CategoryType.STRATEGY: 
+    case CategoryType.STRATEGY:
       return { fill: 'fill-indigo-50', stroke: 'stroke-indigo-200', text: 'text-indigo-500', marker: 'text-indigo-400' };
-    case CategoryType.RESEARCH: 
+    case CategoryType.RESEARCH:
       return { fill: 'fill-teal-50', stroke: 'stroke-teal-200', text: 'text-teal-500', marker: 'text-teal-400' };
-    case CategoryType.INFRASTRUCTURE: 
+    case CategoryType.INFRASTRUCTURE:
       return { fill: 'fill-slate-100', stroke: 'stroke-slate-300', text: 'text-slate-500', marker: 'text-slate-400' };
-    case CategoryType.DISSEMINATION: 
+    case CategoryType.DISSEMINATION:
       return { fill: 'fill-orange-50', stroke: 'stroke-orange-200', text: 'text-orange-500', marker: 'text-orange-400' };
-    default: 
+    default:
       return { fill: 'fill-slate-50', stroke: 'stroke-slate-200', text: 'text-slate-500', marker: 'text-slate-400' };
   }
 };
@@ -38,7 +55,7 @@ const DetailPanel: React.FC<DetailPanelProps> = ({ role }) => {
 
   return (
     <div className="h-full w-full flex flex-col relative bg-white border-l border-slate-200/60 z-40 shadow-[0_0_40px_rgba(0,0,0,0.05)]">
-      
+
       {/* Decorative Top Accent */}
       <div className="h-1.5 w-full bg-gradient-to-r from-slate-200 via-slate-100 to-white opacity-50 flex-shrink-0" />
 
@@ -55,40 +72,40 @@ const DetailPanel: React.FC<DetailPanelProps> = ({ role }) => {
             >
               {/* Header Badge Group */}
               <div className="flex flex-col items-start gap-4 xl:gap-6 w-full">
-                 <div className="flex items-center gap-3">
-                   {/* Category Pill */}
-                   <span className={clsx(
-                     "px-3 py-1 rounded-md text-[9px] xl:text-[10px] font-bold uppercase tracking-[0.15em] border bg-white shadow-sm",
-                     getCategoryColorText(role.category).replace('text-', 'border-').replace('500', '200'),
-                     getCategoryColorText(role.category)
-                   )}>
-                     {role.category}
-                   </span>
-                 </div>
+                <div className="flex items-center gap-3">
+                  {/* Category Pill */}
+                  <span className={clsx(
+                    "px-3 py-1 rounded-md text-[9px] xl:text-[10px] font-bold uppercase tracking-[0.15em] border bg-white shadow-sm",
+                    getCategoryColorText(role.category).replace('text-', 'border-').replace('500', '200'),
+                    getCategoryColorText(role.category)
+                  )}>
+                    {role.category}
+                  </span>
+                </div>
 
-                 {/* Icon Container - Hexagon Shape */}
-                 <div className={clsx(
-                   "relative flex items-center justify-center w-20 h-24 xl:w-28 xl:h-32 flex-shrink-0 transition-colors duration-300",
-                   hexStyles.text
-                 )}>
-                    <svg viewBox="0 0 100 115" className="absolute inset-0 w-full h-full overflow-visible">
-                        <path 
-                          transform="translate(0, 7.5)"
-                          d="M50 0 L93.3 25 V75 L50 100 L6.7 75 V25 Z" 
-                          className={clsx(
-                            "transition-colors duration-300",
-                            hexStyles.fill,
-                            hexStyles.stroke
-                          )}
-                          strokeWidth="2"
-                        />
-                    </svg>
-                    <role.icon 
-                      size={40} 
-                      strokeWidth={1.5}
-                      className="relative z-10 text-slate-500 xl:w-[48px] xl:h-[48px]"
+                {/* Icon Container - Hexagon Shape */}
+                <div className={clsx(
+                  "relative flex items-center justify-center w-20 h-24 xl:w-28 xl:h-32 flex-shrink-0 transition-colors duration-300",
+                  hexStyles.text
+                )}>
+                  <svg viewBox="0 0 100 115" className="absolute inset-0 w-full h-full overflow-visible">
+                    <path
+                      transform="translate(0, 7.5)"
+                      d="M50 0 L93.3 25 V75 L50 100 L6.7 75 V25 Z"
+                      className={clsx(
+                        "transition-colors duration-300",
+                        hexStyles.fill,
+                        hexStyles.stroke
+                      )}
+                      strokeWidth="2"
                     />
-                 </div>
+                  </svg>
+                  <role.icon
+                    size={40}
+                    strokeWidth={1.5}
+                    className="relative z-10 text-slate-500 xl:w-[48px] xl:h-[48px]"
+                  />
+                </div>
               </div>
 
               {/* Title */}
@@ -120,11 +137,35 @@ const DetailPanel: React.FC<DetailPanelProps> = ({ role }) => {
                   <ul className="space-y-2 xl:space-y-3">
                     {role.examples.map((example, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-slate-600 font-serif text-base xl:text-lg leading-snug">
-                         <span className={clsx("mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0", hexStyles.marker.replace('text-', 'bg-'))} />
-                         <span>{example}</span>
+                        <span className={clsx("mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0", hexStyles.marker.replace('text-', 'bg-'))} />
+                        <span>{example}</span>
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {/* Icon Link Section */}
+              {ICON_URLS[role.id] && (
+                <div className="w-full pt-6 xl:pt-8 mt-2 xl:mt-4 border-t border-slate-100 flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <span className="text-[9px] xl:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Iconography</span>
+                    <span className="text-sm xl:text-base font-serif text-slate-600 mt-1 leading-snug">Get this icon from Lucide</span>
+                  </div>
+                  <a
+                    href={ICON_URLS[role.id]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={clsx(
+                      "flex items-center gap-2 px-4 py-2 rounded-md transition-colors text-xs font-bold uppercase tracking-wider",
+                      hexStyles.fill,
+                      hexStyles.text,
+                      "hover:opacity-80"
+                    )}
+                  >
+                    <Download size={14} />
+                    Get Icon
+                  </a>
                 </div>
               )}
 

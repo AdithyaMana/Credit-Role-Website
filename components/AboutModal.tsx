@@ -12,7 +12,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 lg:p-8">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -20,7 +20,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
           />
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -36,7 +36,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
 
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto custom-scrollbar px-6 py-8 space-y-8">
-              
+
               {/* Intro / Abstract */}
               <section className="space-y-4">
                 <div className="flex items-start gap-3">
@@ -60,9 +60,9 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                 <p className="font-sans text-slate-700 text-[14px] leading-relaxed mb-5">
                   CRediT (Contributor Roles Taxonomy) brings structure and usefulness to the block of names associated with a research paper. We did not create these roles; we are designing visual cues to help increase their adoption.
                 </p>
-                <a 
-                  href="https://credit.niso.org/" 
-                  target="_blank" 
+                <a
+                  href="https://credit.niso.org/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-[11px] font-bold text-indigo-600 hover:text-indigo-800 uppercase tracking-widest bg-white px-4 py-2.5 rounded border border-indigo-100 hover:border-indigo-300 transition-all shadow-sm"
                 >
@@ -72,25 +72,33 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
 
               {/* Methodology */}
               <section className="space-y-4">
-                 <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3">
                   <div className="p-2 bg-teal-50 text-teal-600 rounded-lg shrink-0 mt-1">
                     <Users size={20} />
                   </div>
                   <div className="w-full">
                     <h3 className="text-[11px] font-bold text-slate-900 uppercase tracking-[0.15em] mb-4">Our Process</h3>
                     <div className="grid grid-cols-1 gap-3">
-                       <div className="bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
-                          <strong className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Background Research</strong>
-                          <p className="text-[14px] text-slate-700 font-sans leading-snug">User interviews to understand the problem space and awareness levels.</p>
-                       </div>
-                       <div className="bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
-                          <strong className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Data Collection</strong>
-                          <p className="text-[14px] text-slate-700 font-sans leading-snug">Surveys involving scientists to select icons that best matched the 14 defined roles.</p>
-                       </div>
-                       <div className="bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
-                          <strong className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Continuous Improvement</strong>
-                          <p className="text-[14px] text-slate-700 font-sans leading-snug">Publishing findings and embracing uncertainty to reach the next version.</p>
-                       </div>
+                      <div className="bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
+                        <strong className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Background Research</strong>
+                        <p className="text-[14px] text-slate-700 font-sans leading-snug">User interviews to understand the problem space and awareness levels.</p>
+                      </div>
+                      <div className="bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
+                        <strong className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Data Collection</strong>
+                        <p className="text-[14px] text-slate-700 font-sans leading-snug mb-3">Surveys involving scientists to select icons that best matched the 14 defined roles.</p>
+                        <a
+                          href="https://creditsurvey.sciux.org/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[10px] font-bold text-teal-600 hover:text-teal-800 uppercase tracking-widest bg-teal-50 px-3 py-1.5 rounded border border-teal-100 hover:border-teal-300 transition-all"
+                        >
+                          View Original Survey <ExternalLink size={10} />
+                        </a>
+                      </div>
+                      <div className="bg-white border border-slate-100 p-4 rounded-xl shadow-sm">
+                        <strong className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Continuous Improvement</strong>
+                        <p className="text-[14px] text-slate-700 font-sans leading-snug">Publishing findings and embracing uncertainty to reach the next version.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -125,12 +133,12 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               </section>
 
             </div>
-            
+
             {/* Footer */}
             <div className="p-4 bg-slate-50 border-t border-slate-200 text-center">
-               <p className="text-[10px] text-slate-400 font-sans font-bold uppercase tracking-[0.2em]">
-                 A ScienceUX Project • 2026
-               </p>
+              <p className="text-[10px] text-slate-400 font-sans font-bold uppercase tracking-[0.2em]">
+                A ScienceUX Project • 2026
+              </p>
             </div>
 
           </motion.div>

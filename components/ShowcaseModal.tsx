@@ -1,9 +1,18 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Lightbulb, ClipboardList, Database, BarChart3, Search, Microscope, Code, ArrowRight } from 'lucide-react';
+import { X, Lightbulb, ClipboardList, Database, BarChart3, Search, Microscope, Code, LucideIcon } from 'lucide-react';
+import MockPublicationTable from './MockPublicationTable';
 
 // 1. DATA STRUCTURE (Restored names and affiliations)
-const CONTRIBUTORS = [
+interface Contributor {
+  id: string;
+  name: string;
+  affs: number[];
+  roles: string[];
+  corr?: boolean;
+}
+
+const CONTRIBUTORS: Contributor[] = [
   { id: 'mm', name: 'Mike Morrison', affs: [1], roles: ['conceptualization', 'investigation', 'methodology'], corr: true },
   { id: 'ml', name: 'Michael Lai', affs: [1], roles: ['conceptualization', 'project-admin', 'data-curation', 'formal-analysis', 'investigation', 'methodology'], corr: true },
   { id: 'rs', name: 'Rieke Schäfer', affs: [1], roles: ['conceptualization', 'data-curation', 'formal-analysis', 'investigation', 'methodology'], corr: true },
@@ -30,13 +39,19 @@ const CONTRIBUTORS = [
   { id: 'jd', name: 'Jack Duncan', affs: [1], roles: ['conceptualization'] },
 ];
 
-const AFFILIATIONS = {
+const AFFILIATIONS: Record<number, string> = {
   1: "University of Metascience, Department of User Research, Utrecht, The Netherlands",
   2: "Institute for Open Science, Berlin, Germany",
   3: "Center for Scientific Reform, Stanford University, CA, USA"
 };
 
-const ROLE_DEFS = [
+interface RoleDef {
+  id: string;
+  title: string;
+  icon: LucideIcon;
+}
+
+const ROLE_DEFS: RoleDef[] = [
   { id: 'conceptualization', title: 'Conceptualization', icon: Lightbulb },
   { id: 'project-admin', title: 'Project Administration', icon: ClipboardList },
   { id: 'data-curation', title: 'Data Curation', icon: Database },
@@ -46,8 +61,22 @@ const ROLE_DEFS = [
   { id: 'software', title: 'Software', icon: Code },
 ];
 
-const ResearchPaperModal = ({ isOpen, onClose }) => {
-  const [viewMode, setViewMode] = useState('credit');
+const AuthorName: React.FC<{ author: Contributor }> = ({ author }) => (
+  <span className="inline-block">
+    {author.name}
+    <sup className="text-[9px] text-indigo-500 ml-0.5 font-bold tracking-tighter">
+      {author.affs.join(',')}{author.corr && ',*'}
+    </sup>
+  </span>
+);
+
+export interface ShowcaseModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const ShowcaseModal: React.FC<ShowcaseModalProps> = ({ isOpen, onClose }) => {
+  const [viewMode, setViewMode] = useState<'byline' | 'credit'>('credit');
 
   const creditGroups = useMemo(() => {
     return ROLE_DEFS.map(role => ({
@@ -56,41 +85,37 @@ const ResearchPaperModal = ({ isOpen, onClose }) => {
     })).filter(group => group.authors.length > 0);
   }, []);
 
-  const AuthorName = ({ author }) => (
-    <span className="inline-block">
-      {author.name}
-      <sup className="text-[9px] text-indigo-500 ml-0.5 font-bold tracking-tighter">
-        {author.affs.join(',')}{author.corr && ',*'}
-      </sup>
-    </span>
-  );
-
   return (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 lg:p-8">
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            onClick={onClose} className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
           />
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
             className="relative w-full max-w-5xl bg-white shadow-2xl flex flex-col max-h-[90vh] overflow-hidden rounded-sm"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100 bg-white">
               <div className="flex items-center gap-4">
-                 <div className="w-8 h-8 bg-slate-900 text-white flex items-center justify-center font-serif font-bold italic text-sm">M</div>
-                 <div className="flex flex-col">
-                   <span className="font-serif font-bold text-slate-900 text-base tracking-tight uppercase">Journal of ScienceUX</span>
-                   <span className="font-sans text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1.5">Volume 12 • 2026</span>
-                 </div>
+                <div className="w-8 h-8 bg-slate-900 text-white flex items-center justify-center font-serif font-bold italic text-sm">M</div>
+                <div className="flex flex-col">
+                  <span className="font-serif font-bold text-slate-900 text-base tracking-tight uppercase">Journal of ScienceUX</span>
+                  <span className="font-sans text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1.5">Volume 12 • 2026</span>
+                </div>
               </div>
               <div className="flex items-center gap-6">
                 <nav className="hidden md:flex gap-4 border-r border-slate-200 pr-6">
-                  {['byline', 'credit'].map((mode) => (
-                    <button 
+                  {(['byline', 'credit'] as const).map((mode) => (
+                    <button
                       key={mode}
                       onClick={() => setViewMode(mode)}
                       className={`text-[10px] font-bold uppercase tracking-widest transition-all ${viewMode === mode ? 'text-slate-900 border-b-2 border-slate-900' : 'text-slate-400 hover:text-slate-600'}`}
@@ -189,6 +214,16 @@ const ResearchPaperModal = ({ isOpen, onClose }) => {
                     </div>
                   </section>
 
+                  {viewMode === 'credit' && (
+                    <section>
+                      <h2 className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-6">Example Usage: Mock Publication Table</h2>
+                      <p className="mb-4">
+                        Below is an interactive demonstration of how the taxonomy icons can be utilized to replace text-heavy column headers in practical research data contexts.
+                      </p>
+                      <MockPublicationTable />
+                    </section>
+                  )}
+
                   <section className="pb-16">
                     <h2 className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-6">Implementation Status</h2>
                     <div className="grid grid-cols-1 gap-4">
@@ -223,4 +258,4 @@ const ResearchPaperModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default ResearchPaperModal;
+export default ShowcaseModal;

@@ -6,22 +6,23 @@ import clsx from 'clsx';
 
 interface HexGridProps {
   selectedId: string | null;
+  lockedId: string | null;
   onSelect: (role: CreditRole) => void;
   onHover: (role: CreditRole) => void;
 }
 
 // Reusable Label Component with Connector Line
-const ConnectorLabel: React.FC<{ 
-  text: string; 
-  position: string; 
-  colorClass: string; 
+const ConnectorLabel: React.FC<{
+  text: string;
+  position: string;
+  colorClass: string;
   lineType: 'top-down' | 'bottom-up' | 'left-right' | 'right-left';
 }> = ({ text, position, colorClass, lineType }) => {
-  
+
   // Define SVG paths for different connector types
   const renderLine = () => {
     const strokeClass = `stroke-current ${colorClass} opacity-40`;
-    switch(lineType) {
+    switch (lineType) {
       case 'top-down':
         return (
           <svg className="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-[1px] h-6 overflow-visible">
@@ -59,7 +60,7 @@ const ConnectorLabel: React.FC<{
       position
     )}>
       <span className={clsx(
-        "text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] whitespace-nowrap bg-white/60 backdrop-blur-sm px-2 py-1 rounded shadow-sm border border-white/50", 
+        "text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] whitespace-nowrap bg-white/60 backdrop-blur-sm px-2 py-1 rounded shadow-sm border border-white/50",
         colorClass
       )}>
         {text}
@@ -69,7 +70,7 @@ const ConnectorLabel: React.FC<{
   );
 };
 
-const HexGrid: React.FC<HexGridProps> = ({ selectedId, onSelect, onHover }) => {
+const HexGrid: React.FC<HexGridProps> = ({ selectedId, lockedId, onSelect, onHover }) => {
   const sortedRoles = [
     ...creditRoles.filter(r => r.category === CategoryType.STRATEGY),
     ...creditRoles.filter(r => r.category === CategoryType.RESEARCH),
@@ -77,31 +78,31 @@ const HexGrid: React.FC<HexGridProps> = ({ selectedId, onSelect, onHover }) => {
     ...creditRoles.filter(r => r.category === CategoryType.DISSEMINATION),
   ];
 
-  const hexWidth = 110; 
-  const marginBottom = -32; 
-  
-  const row1 = sortedRoles.slice(0, 2);   
-  const row2 = sortedRoles.slice(2, 5);   
-  const row3 = sortedRoles.slice(5, 9);   
-  const row4 = sortedRoles.slice(9, 12);  
-  const row5 = sortedRoles.slice(12, 14); 
+  const hexWidth = 110;
+  const marginBottom = -32;
+
+  const row1 = sortedRoles.slice(0, 2);
+  const row2 = sortedRoles.slice(2, 5);
+  const row3 = sortedRoles.slice(5, 9);
+  const row4 = sortedRoles.slice(9, 12);
+  const row5 = sortedRoles.slice(12, 14);
 
   return (
     <div className="relative flex flex-col items-center justify-center py-20 px-8 select-none">
-      
+
       {/* Strategy: Top Center (Row 1) */}
-      <ConnectorLabel 
-        text="Strategy & Leadership" 
+      <ConnectorLabel
+        text="Strategy & Leadership"
         position="top-2 left-1/2 -translate-x-1/2"
         colorClass="text-indigo-500"
         lineType="top-down"
       />
-      
+
       {/* Research: Right Side (Row 3 - Middle) 
           Adjusted position to be tighter to the grid
       */}
-      <ConnectorLabel 
-        text="Research & Data" 
+      <ConnectorLabel
+        text="Research & Data"
         position="top-1/2 -right-8 translate-x-full -translate-y-1/2"
         colorClass="text-teal-500"
         lineType="right-left"
@@ -110,16 +111,16 @@ const HexGrid: React.FC<HexGridProps> = ({ selectedId, onSelect, onHover }) => {
       {/* Infrastructure: Left Side (Row 4) 
           Adjusted to be relative to the grid row it labels
       */}
-      <ConnectorLabel 
-        text="Infrastructure" 
+      <ConnectorLabel
+        text="Infrastructure"
         position="top-[64%] -left-8 -translate-x-full -translate-y-1/2"
         colorClass="text-slate-500"
         lineType="left-right"
       />
 
-       {/* Dissemination: Bottom Center (Row 5) */}
-       <ConnectorLabel 
-        text="Dissemination" 
+      {/* Dissemination: Bottom Center (Row 5) */}
+      <ConnectorLabel
+        text="Dissemination"
         position="bottom-2 left-1/2 -translate-x-1/2"
         colorClass="text-orange-500"
         lineType="bottom-up"
@@ -127,34 +128,34 @@ const HexGrid: React.FC<HexGridProps> = ({ selectedId, onSelect, onHover }) => {
 
       <div className="flex gap-1.5" style={{ marginBottom }}>
         {row1.map(role => (
-          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
+          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} isLocked={lockedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
         ))}
       </div>
 
       <div className="flex gap-1.5" style={{ marginBottom }}>
         {row2.map(role => (
-          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
+          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} isLocked={lockedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
         ))}
       </div>
 
       <div className="flex gap-1.5" style={{ marginBottom }}>
         {row3.map(role => (
-          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
+          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} isLocked={lockedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
         ))}
       </div>
 
       <div className="flex gap-1.5" style={{ marginBottom }}>
         {row4.map(role => (
-          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
+          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} isLocked={lockedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
         ))}
       </div>
 
-       <div className="flex gap-1.5">
+      <div className="flex gap-1.5">
         {row5.map(role => (
-          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
+          <Hexagon key={role.id} role={role} isActive={selectedId === role.id} isLocked={lockedId === role.id} onClick={onSelect} onHover={onHover} width={hexWidth} />
         ))}
       </div>
-      
+
     </div>
   );
 };
