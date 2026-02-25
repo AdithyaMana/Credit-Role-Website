@@ -5,6 +5,7 @@ import { CategoryType, CreditRole } from '../types';
 import clsx from 'clsx';
 import { X, ChevronRight, Info, CheckCircle, Eye, ArrowRight, Download } from 'lucide-react';
 import scienceUXLogoUrl from '../assets/scienceux-logo.png';
+import spreadsheetUrl from '../assets/iconspreadsheetpng.png';
 
 // --- Theme and Icon Helpers ---
 const getTheme = (category: CategoryType) => {
@@ -167,8 +168,8 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ onOpenShowcase, onOp
 
         <div className="flex gap-2 shrink-0 pointer-events-auto">
           <a
-            href="/icon-spreadsheet.png"
-            download="icon-spreadsheet.png"
+            href={spreadsheetUrl}
+            download="Credit-Role-Icons-Spreadsheet.png"
             className="p-3 bg-indigo-50/80 backdrop-blur border border-indigo-100 text-indigo-500 rounded-full hover:bg-indigo-100 hover:text-indigo-600 transition-all shadow-sm"
             aria-label="Download Spreadsheet"
           >

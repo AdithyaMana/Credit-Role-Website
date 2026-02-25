@@ -8,6 +8,7 @@ import { CreditRole } from './types';
 import { creditRoles } from './data/roles';
 import { Eye, Info, Download } from 'lucide-react';
 import scienceUXLogoUrl from './assets/scienceux-logo.png';
+import spreadsheetUrl from './assets/iconspreadsheetpng.png';
 
 const App: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<CreditRole | null>(creditRoles[0]);
@@ -45,8 +46,8 @@ const App: React.FC = () => {
 
             <div className="flex items-center gap-3 pointer-events-auto">
               <a
-                href="/icon-spreadsheet.png"
-                download="icon-spreadsheet.png"
+                href={spreadsheetUrl}
+                download="Credit-Role-Icons-Spreadsheet.png"
                 className="flex items-center gap-2 px-4 py-2 bg-indigo-50/80 backdrop-blur-md border border-indigo-100 rounded-full shadow-sm text-[11px] font-bold uppercase tracking-wider text-indigo-600 hover:bg-indigo-100 transition-all group"
               >
                 <Download size={16} className="text-indigo-400 group-hover:text-indigo-600 transition-colors" />
