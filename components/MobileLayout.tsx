@@ -159,11 +159,9 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ onOpenShowcase, onOp
     <div className="min-h-screen bg-slate-50 font-sans pb-12">
       {/* --- RESPONSIVE HEADER --- */}
       <header className="px-6 py-6 md:py-8 sticky top-0 z-40 flex items-center justify-between pointer-events-none">
-        <div className="flex flex-col gap-6 items-center px-6 mt-8 mb-4">
-          <a href="https://scienceux.org/" target="_blank" rel="noopener noreferrer" className="pointer-events-auto">
-            <div className="w-56 overflow-hidden flex items-center justify-center">
-              <img src={scienceUXLogoUrl} alt="ScienceUX Logo" className="w-full h-auto drop-shadow-sm" />
-            </div>
+        <div className="flex items-center gap-4 pointer-events-auto">
+          <a href="https://scienceux.org/" target="_blank" rel="noopener noreferrer">
+            <img src={scienceUXLogoUrl} alt="ScienceUX Logo" className="h-8 md:h-10 w-auto drop-shadow-sm object-contain" />
           </a>
         </div>
 
