@@ -37,8 +37,10 @@ const App: React.FC = () => {
         <main className="flex-1 relative flex flex-col h-full min-w-0">
 
           <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-8 py-8 pointer-events-none">
-            <div className="flex items-center gap-4">
-              <img src={scienceUXLogoUrl} alt="ScienceUX Logo" className="h-10 w-auto opacity-100" />
+            <div className="flex items-center gap-4 pointer-events-auto">
+              <a href="https://scienceux.org/" target="_blank" rel="noopener noreferrer">
+                <img src={scienceUXLogoUrl} alt="ScienceUX Logo" className="h-10 w-auto opacity-100" />
+              </a>
             </div>
 
             <div className="flex items-center gap-3 pointer-events-auto">
