@@ -7,6 +7,10 @@ interface TableViewProps {
 }
 
 export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
+    // Derive the set of role IDs that are actually used by at least one contributor
+    const usedRoleIds = new Set(contributors.flatMap(c => c.roles));
+    const activeRoles = creditRoles.filter(r => usedRoleIds.has(r.id));
+
     return (
         <div className="w-full max-h-[65vh] overflow-x-auto overflow-y-auto border-t-2 border-b-2 border-slate-800 bg-white custom-scrollbar pb-0 relative">
             <table className="min-w-full divide-y divide-slate-300">
@@ -15,16 +19,11 @@ export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
                         <th scope="col" className="px-4 py-3 text-left font-serif text-sm font-semibold text-slate-900 border-b-2 border-slate-800 sticky left-0 z-40 bg-white shadow-[1px_0_0_0_#e2e8f0]">
                             Author
                         </th>
-                        {creditRoles.map(role => {
-                            const Icon = role.icon;
-                            return (
-                                <th key={role.id} scope="col" className="px-3 py-3 text-center font-serif text-sm font-semibold text-slate-900 bg-white border-b-2 border-slate-800 border-l border-slate-200" title={role.title}>
-                                    <div className="flex justify-center">
-                                        <Icon size={18} className="text-slate-700" strokeWidth={1.5} />
-                                    </div>
-                                </th>
-                            );
-                        })}
+                        {activeRoles.map(role => (
+                            <th key={role.id} scope="col" className="px-3 py-3 text-center font-serif text-sm font-semibold text-slate-900 bg-white border-b-2 border-slate-800 border-l border-slate-200 whitespace-nowrap" title={role.title}>
+                                {role.title}
+                            </th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
@@ -33,10 +32,10 @@ export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
                             <td className="px-4 py-3 whitespace-nowrap text-sm font-serif text-slate-800 sticky left-0 z-20 bg-white group-hover:bg-slate-50 transition-colors shadow-[1px_0_0_0_#f1f5f9]">
                                 <span className="font-semibold">{contributor.name || 'Unnamed Author'}</span>
                             </td>
-                            {creditRoles.map(role => (
+                            {activeRoles.map(role => (
                                 <td
                                     key={role.id}
-                                    className="px-3 py-3 text-center border-l border-slate-200 text-slate-800 font-bold"
+                                    className="px-3 py-3 text-center border-l border-slate-200 text-slate-800"
                                 >
                                     {contributor.roles.includes(role.id) ? '•' : ''}
                                 </td>

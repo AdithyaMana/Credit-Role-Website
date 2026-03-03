@@ -43,6 +43,9 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
         }
     };
 
+    // Only show roles that are actually assigned to at least one contributor
+    const activeRoles = creditRoles.filter(r => contributors.some(c => c.roles.includes(r.id)));
+
     return (
         <div className="w-full space-y-4 select-none">
             <div className="flex justify-end pr-1">
@@ -63,7 +66,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                 <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-slate-800 uppercase tracking-wider sticky top-0 left-0 z-40 bg-white border-r-2 border-b-2 border-slate-800">
                                     Contributor
                                 </th>
-                                {creditRoles.map(role => {
+                                {activeRoles.map(role => {
                                     const Icon = role.icon;
                                     return (
                                         <th key={role.id} scope="col" className="px-1 py-4 text-center min-w-[48px] bg-white sticky top-0 z-30 border-b-2 border-slate-800 border-l border-slate-200">
@@ -127,7 +130,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                             </button>
                                         </div>
                                     </td>
-                                    {creditRoles.map(role => {
+                                    {activeRoles.map(role => {
                                         const Icon = role.icon;
                                         const hasRole = contributor.roles.includes(role.id);
                                         return (
@@ -152,7 +155,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                 </tr>
                             ))
                         ) : (
-                            creditRoles.map(role => {
+                            activeRoles.map(role => {
                                 const Icon = role.icon;
                                 return (
                                     <tr key={role.id} className="hover:bg-slate-50 transition-colors group">
