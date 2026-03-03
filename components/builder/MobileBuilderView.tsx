@@ -283,14 +283,11 @@ export const MobileBuilderView: React.FC = () => {
                             <thead className="bg-white">
                                 <tr>
                                     <th className="px-3 py-2.5 text-left text-xs font-bold text-slate-800 uppercase tracking-wider sticky left-0 z-10 bg-white border-b-2 border-slate-800 border-r border-slate-200">Author</th>
-                                    {activeRoles.map(role => {
-                                        const Icon = role.icon;
-                                        return (
-                                            <th key={role.id} className="px-2 py-2.5 text-center border-b-2 border-slate-800 border-l border-slate-200 bg-white" title={role.title}>
-                                                <Icon size={16} className="text-slate-600 mx-auto" strokeWidth={1.5} />
-                                            </th>
-                                        );
-                                    })}
+                                    {activeRoles.map(role => (
+                                        <th key={role.id} className="px-2 py-2.5 text-center border-b-2 border-slate-800 border-l border-slate-200 bg-white text-[10px] font-semibold text-slate-700 min-w-[80px]">
+                                            {role.title}
+                                        </th>
+                                    ))}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -299,9 +296,11 @@ export const MobileBuilderView: React.FC = () => {
                                         <td className="px-3 py-2 text-sm font-semibold text-slate-800 whitespace-nowrap sticky left-0 bg-white border-r border-slate-200">{c.name || 'Unnamed'}</td>
                                         {activeRoles.map(role => (
                                             <td key={role.id} className="px-1 py-1.5 text-center border-l border-slate-100">
-                                                <div className="flex justify-center">
-                                                    <div className={`w-5 h-5 rounded-sm ${c.roles.includes(role.id) ? 'bg-slate-800' : 'bg-slate-100'}`} />
-                                                </div>
+                                                {c.roles.includes(role.id) ? (
+                                                    <span className="text-slate-800 font-bold">✓</span>
+                                                ) : (
+                                                    <span className="text-slate-200">—</span>
+                                                )}
                                             </td>
                                         ))}
                                     </tr>

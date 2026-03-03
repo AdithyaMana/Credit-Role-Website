@@ -28,16 +28,11 @@ export const InlineMatrixView: React.FC<InlineMatrixViewProps> = ({ contributors
                         <th scope="col" className="px-4 py-3 text-left font-serif text-sm font-semibold text-slate-900 border-b-2 border-slate-800 sticky left-0 z-40 bg-white shadow-[1px_0_0_0_#e2e8f0]">
                             Author
                         </th>
-                        {activeRoles.map(role => {
-                            const Icon = role.icon;
-                            return (
-                                <th key={role.id} scope="col" className="px-3 py-3 text-center font-serif text-sm font-semibold text-slate-900 bg-white border-b-2 border-slate-800 border-l border-slate-200" title={role.title}>
-                                    <div className="flex justify-center">
-                                        <Icon size={18} className="text-slate-700" strokeWidth={1.5} />
-                                    </div>
-                                </th>
-                            );
-                        })}
+                        {activeRoles.map(role => (
+                            <th key={role.id} scope="col" className="px-2 py-3 text-center font-serif text-xs font-semibold text-slate-700 bg-white border-b-2 border-slate-800 border-l border-slate-200 min-w-[90px]">
+                                {role.title}
+                            </th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
@@ -51,16 +46,13 @@ export const InlineMatrixView: React.FC<InlineMatrixViewProps> = ({ contributors
                                 return (
                                     <td
                                         key={role.id}
-                                        className="px-3 py-3 text-center border-l border-slate-200"
+                                        className="px-2 py-3 text-center border-l border-slate-200"
                                     >
-                                        <div className="flex justify-center">
-                                            <div
-                                                className={`w-[22px] h-[22px] rounded-[3px] ${hasRole
-                                                        ? 'bg-slate-800'
-                                                        : 'bg-slate-100'
-                                                    }`}
-                                            />
-                                        </div>
+                                        {hasRole ? (
+                                            <span className="text-slate-800 font-bold">✓</span>
+                                        ) : (
+                                            <span className="text-slate-200">—</span>
+                                        )}
                                     </td>
                                 );
                             })}
