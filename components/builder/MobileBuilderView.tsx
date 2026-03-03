@@ -144,8 +144,8 @@ export const MobileBuilderView: React.FC = () => {
                         key={tab.key}
                         onClick={() => setMobileView(tab.key)}
                         className={`flex-shrink-0 px-3 py-1.5 rounded-md text-[11px] font-bold uppercase tracking-wider transition-all whitespace-nowrap ${mobileView === tab.key
-                                ? 'bg-white text-indigo-600 shadow-sm'
-                                : 'text-slate-500'
+                            ? 'bg-white text-indigo-600 shadow-sm'
+                            : 'text-slate-500'
                             }`}
                     >
                         {tab.label}
@@ -200,8 +200,8 @@ export const MobileBuilderView: React.FC = () => {
                                                             key={role.id}
                                                             onClick={() => toggleContributorRole(contributor.id, role.id)}
                                                             className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-semibold transition-all ${hasRole
-                                                                    ? 'bg-slate-800 text-white'
-                                                                    : 'bg-slate-50 text-slate-500 border border-slate-200'
+                                                                ? 'bg-slate-800 text-white'
+                                                                : 'bg-slate-50 text-slate-500 border border-slate-200'
                                                                 }`}
                                                         >
                                                             <Icon size={14} strokeWidth={1.5} />
@@ -263,8 +263,12 @@ export const MobileBuilderView: React.FC = () => {
                                     <tr key={c.id}>
                                         <td className="px-3 py-2 text-sm font-semibold text-slate-800 whitespace-nowrap sticky left-0 bg-white border-r border-slate-200">{c.name || 'Unnamed'}</td>
                                         {activeRoles.map(role => (
-                                            <td key={role.id} className="px-2 py-2 text-center border-l border-slate-100 text-slate-800 font-bold">
-                                                {c.roles.includes(role.id) ? '•' : ''}
+                                            <td key={role.id} className="px-2 py-2 text-center border-l border-slate-100">
+                                                <div className="flex justify-center">
+                                                    {c.roles.includes(role.id) && (
+                                                        <div className="w-4 h-4 rounded-sm bg-slate-800" />
+                                                    )}
+                                                </div>
                                             </td>
                                         ))}
                                     </tr>
