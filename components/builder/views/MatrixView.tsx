@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Contributor, CategoryType } from '../../../types';
 import { creditRoles } from '../../../data/roles';
 import clsx from 'clsx';
@@ -24,8 +24,33 @@ const getCategoryColorText = (category: CategoryType) => {
 export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateName, onToggleRole, onRemove }) => {
     const [isTransposed, setIsTransposed] = useState(false);
 
+    // State for drag-to-paint functionality
+    const [dragState, setDragState] = useState<{ active: boolean, action: 'ADD' | 'REMOVE' | null }>({ active: false, action: null });
+
+    useEffect(() => {
+        const handleMouseUp = () => setDragState({ active: false, action: null });
+        window.addEventListener('mouseup', handleMouseUp);
+        return () => window.removeEventListener('mouseup', handleMouseUp);
+    }, []);
+
+    const handleMouseDown = (contributorId: string, roleId: string, currentlyHasRole: boolean) => {
+        const newAction = currentlyHasRole ? 'REMOVE' : 'ADD';
+        setDragState({ active: true, action: newAction });
+        onToggleRole(contributorId, roleId);
+    };
+
+    const handleMouseEnter = (contributorId: string, roleId: string, currentlyHasRole: boolean) => {
+        if (!dragState.active || !dragState.action) return;
+
+        if (dragState.action === 'ADD' && !currentlyHasRole) {
+            onToggleRole(contributorId, roleId);
+        } else if (dragState.action === 'REMOVE' && currentlyHasRole) {
+            onToggleRole(contributorId, roleId);
+        }
+    };
+
     return (
-        <div className="w-full space-y-4">
+        <div className="w-full space-y-4 select-none">
             <div className="flex justify-end pr-1">
                 <button
                     onClick={() => setIsTransposed(!isTransposed)}
@@ -110,20 +135,22 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                     </td>
                                     {creditRoles.map(role => {
                                         const Icon = role.icon;
+                                        const hasRole = contributor.roles.includes(role.id);
                                         return (
                                             <td
                                                 key={role.id}
                                                 className="px-3 py-4 whitespace-nowrap text-center cursor-pointer hover:bg-indigo-50/50 transition-colors"
-                                                onClick={() => onToggleRole(contributor.id, role.id)}
+                                                onMouseDown={() => handleMouseDown(contributor.id, role.id, hasRole)}
+                                                onMouseEnter={() => handleMouseEnter(contributor.id, role.id, hasRole)}
                                             >
-                                                {contributor.roles.includes(role.id) ? (
-                                                    <div className="w-full flex justify-center">
+                                                {hasRole ? (
+                                                    <div className="w-full flex justify-center pointer-events-none">
                                                         <div className="w-6 h-6 rounded bg-slate-50 flex items-center justify-center border border-slate-200 shadow-sm scale-110 transition-transform">
                                                             <Icon size={14} className={getCategoryColorText(role.category)} strokeWidth={3} />
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <span className="text-slate-200/50 block group-hover:text-slate-300">—</span>
+                                                    <span className="text-slate-200/50 block group-hover:text-slate-300 pointer-events-none">—</span>
                                                 )}
                                             </td>
                                         );
@@ -141,23 +168,27 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                                 <span>{role.title}</span>
                                             </div>
                                         </td>
-                                        {contributors.map(contributor => (
-                                            <td
-                                                key={contributor.id}
-                                                className="px-3 py-4 whitespace-nowrap text-center cursor-pointer hover:bg-indigo-50/50 transition-colors"
-                                                onClick={() => onToggleRole(contributor.id, role.id)}
-                                            >
-                                                {contributor.roles.includes(role.id) ? (
-                                                    <div className="w-full flex justify-center">
-                                                        <div className="w-6 h-6 rounded bg-slate-50 flex items-center justify-center border border-slate-200 shadow-sm scale-110 transition-transform">
-                                                            <Icon size={14} className={getCategoryColorText(role.category)} strokeWidth={3} />
+                                        {contributors.map(contributor => {
+                                            const hasRole = contributor.roles.includes(role.id);
+                                            return (
+                                                <td
+                                                    key={contributor.id}
+                                                    className="px-3 py-4 whitespace-nowrap text-center cursor-pointer hover:bg-indigo-50/50 transition-colors"
+                                                    onMouseDown={() => handleMouseDown(contributor.id, role.id, hasRole)}
+                                                    onMouseEnter={() => handleMouseEnter(contributor.id, role.id, hasRole)}
+                                                >
+                                                    {hasRole ? (
+                                                        <div className="w-full flex justify-center pointer-events-none">
+                                                            <div className="w-6 h-6 rounded bg-slate-50 flex items-center justify-center border border-slate-200 shadow-sm scale-110 transition-transform">
+                                                                <Icon size={14} className={getCategoryColorText(role.category)} strokeWidth={3} />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                ) : (
-                                                    <span className="text-slate-200/50 block group-hover:text-slate-300">—</span>
-                                                )}
-                                            </td>
-                                        ))}
+                                                    ) : (
+                                                        <span className="text-slate-200/50 block group-hover:text-slate-300 pointer-events-none">—</span>
+                                                    )}
+                                                </td>
+                                            );
+                                        })}
                                     </tr>
                                 );
                             })

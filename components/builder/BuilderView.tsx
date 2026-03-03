@@ -101,15 +101,18 @@ export const BuilderView: React.FC = () => {
 
                     <div className="w-full relative min-h-[300px] flex flex-col gap-4">
                         {viewMode === 'MATRIX' && <MatrixView contributors={contributors} onUpdateName={updateContributorName} onToggleRole={toggleContributorRole} onRemove={removeContributor} />}
-                        {viewMode === 'TABLE' && <TableView contributors={contributors} onUpdateName={updateContributorName} onToggleRole={toggleContributorRole} onRemove={removeContributor} />}
-                        {viewMode === 'INLINE_MATRIX' && <InlineMatrixView contributors={contributors} onUpdateName={updateContributorName} onToggleRole={toggleContributorRole} onRemove={removeContributor} />}
+                        {viewMode === 'TABLE' && <TableView contributors={contributors} />}
+                        {viewMode === 'INLINE_MATRIX' && <InlineMatrixView contributors={contributors} />}
                         {viewMode === 'AUTHOR_LIST' && <AuthorListView contributors={contributors} />}
                         {viewMode === 'ROLE_LIST' && <RoleListView contributors={contributors} />}
 
                         {contributors.length === 0 ? (
                             <div className="pt-6">
                                 <button
-                                    onClick={addContributor}
+                                    onClick={() => {
+                                        setViewMode('MATRIX');
+                                        addContributor();
+                                    }}
                                     className="w-full bg-indigo-50/50 border-2 border-dashed border-indigo-200 hover:border-indigo-400 hover:bg-indigo-100/50 rounded-2xl p-8 flex flex-col items-center justify-center gap-4 text-indigo-400 hover:text-indigo-600 transition-all group shadow-sm"
                                 >
                                     <div className="p-4 bg-white rounded-full shadow-md group-hover:scale-110 group-hover:-translate-y-1 transition-all">
@@ -121,7 +124,7 @@ export const BuilderView: React.FC = () => {
                                     </div>
                                 </button>
                             </div>
-                        ) : (
+                        ) : viewMode === 'MATRIX' ? (
                             <div className="pt-2">
                                 <button
                                     onClick={addContributor}
@@ -130,6 +133,10 @@ export const BuilderView: React.FC = () => {
                                     <UserPlus size={16} />
                                     <span className="font-semibold font-sans tracking-wide text-sm">Add Contributor Row</span>
                                 </button>
+                            </div>
+                        ) : (
+                            <div className="pt-6 pb-2 text-center text-slate-400 text-sm italic">
+                                Note: You can only add authors and edit roles in the Matrix Grid view.
                             </div>
                         )}
                     </div>

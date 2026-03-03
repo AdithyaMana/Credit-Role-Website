@@ -1,16 +1,12 @@
 import React from 'react';
 import { Contributor } from '../../../types';
 import { creditRoles } from '../../../data/roles';
-import { Trash2 } from 'lucide-react';
 
 interface TableViewProps {
     contributors: Contributor[];
-    onUpdateName: (id: string, name: string) => void;
-    onToggleRole: (contributorId: string, roleId: string) => void;
-    onRemove: (id: string) => void;
 }
 
-export const TableView: React.FC<TableViewProps> = ({ contributors, onUpdateName, onToggleRole, onRemove }) => {
+export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
     return (
         <div className="w-full max-h-[65vh] overflow-x-auto overflow-y-auto border-t-2 border-b-2 border-slate-800 bg-white custom-scrollbar pb-0 relative">
             <table className="min-w-full divide-y divide-slate-300">
@@ -30,28 +26,12 @@ export const TableView: React.FC<TableViewProps> = ({ contributors, onUpdateName
                     {contributors.map(contributor => (
                         <tr key={contributor.id} className="group hover:bg-slate-50 transition-colors">
                             <td className="px-4 py-3 whitespace-nowrap text-sm font-serif text-slate-800 sticky left-0 z-20 bg-white group-hover:bg-slate-50 transition-colors shadow-[1px_0_0_0_#f1f5f9]">
-                                <div className="flex items-center gap-2">
-                                    <input
-                                        type="text"
-                                        value={contributor.name}
-                                        onChange={(e) => onUpdateName(contributor.id, e.target.value)}
-                                        placeholder="Author Name..."
-                                        className="bg-transparent border-b border-transparent hover:border-slate-300 focus:border-indigo-500 focus:ring-0 px-1 py-1 w-32 outline-none font-semibold transition-colors"
-                                    />
-                                    <button
-                                        onClick={() => onRemove(contributor.id)}
-                                        className="p-1 text-slate-300 hover:text-red-500 rounded transition-colors opacity-0 group-hover:opacity-100"
-                                        title="Remove"
-                                    >
-                                        <Trash2 size={14} />
-                                    </button>
-                                </div>
+                                <span className="font-semibold">{contributor.name || 'Unnamed Author'}</span>
                             </td>
                             {creditRoles.map(role => (
                                 <td
                                     key={role.id}
-                                    className="px-3 py-3 text-center border-l border-slate-200 text-slate-800 font-bold cursor-pointer hover:bg-slate-100 transition-colors"
-                                    onClick={() => onToggleRole(contributor.id, role.id)}
+                                    className="px-3 py-3 text-center border-l border-slate-200 text-slate-800 font-bold"
                                 >
                                     {contributor.roles.includes(role.id) ? '•' : ''}
                                 </td>
