@@ -7,6 +7,11 @@ interface TableViewProps {
 }
 
 export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
+    // Filter to only show roles that have been assigned to at least one author
+    const activeRoles = creditRoles.filter(role =>
+        contributors.some(c => c.roles.includes(role.id))
+    );
+
     return (
         <div className="w-full max-h-[65vh] overflow-x-auto overflow-y-auto border-t-2 border-b-2 border-slate-800 bg-white custom-scrollbar pb-0 relative">
             <table className="min-w-full divide-y divide-slate-300">
@@ -15,7 +20,7 @@ export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
                         <th scope="col" className="px-4 py-3 text-left font-serif text-sm font-semibold text-slate-900 border-b-2 border-slate-800 sticky left-0 z-40 bg-white shadow-[1px_0_0_0_#e2e8f0]">
                             Author
                         </th>
-                        {creditRoles.map(role => {
+                        {activeRoles.map(role => {
                             const Icon = role.icon;
                             return (
                                 <th key={role.id} scope="col" className="px-3 py-3 text-center font-serif text-sm font-semibold text-slate-900 bg-white border-b-2 border-slate-800 border-l border-slate-200" title={role.title}>
@@ -33,23 +38,14 @@ export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
                             <td className="px-4 py-3 whitespace-nowrap text-sm font-serif text-slate-800 sticky left-0 z-20 bg-white group-hover:bg-slate-50 transition-colors shadow-[1px_0_0_0_#f1f5f9]">
                                 <span className="font-semibold">{contributor.name || 'Unnamed Author'}</span>
                             </td>
-                            {creditRoles.map(role => {
-                                const Icon = role.icon;
-                                return (
-                                    <td
-                                        key={role.id}
-                                        className="px-3 py-3 text-center border-l border-slate-200"
-                                    >
-                                        {contributor.roles.includes(role.id) ? (
-                                            <div className="flex justify-center opacity-60">
-                                                <Icon size={14} className="text-slate-700" strokeWidth={2} />
-                                            </div>
-                                        ) : (
-                                            <span className="text-slate-200">—</span>
-                                        )}
-                                    </td>
-                                );
-                            })}
+                            {activeRoles.map(role => (
+                                <td
+                                    key={role.id}
+                                    className="px-3 py-3 text-center border-l border-slate-200 text-slate-800 font-bold"
+                                >
+                                    {contributor.roles.includes(role.id) ? '•' : ''}
+                                </td>
+                            ))}
                         </tr>
                     ))}
                 </tbody>
