@@ -15,11 +15,16 @@ export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
                         <th scope="col" className="px-4 py-3 text-left font-serif text-sm font-semibold text-slate-900 border-b-2 border-slate-800 sticky left-0 z-40 bg-white shadow-[1px_0_0_0_#e2e8f0]">
                             Author
                         </th>
-                        {creditRoles.map(role => (
-                            <th key={role.id} scope="col" className="px-3 py-3 text-center font-serif text-sm font-semibold text-slate-900 bg-white border-b-2 border-slate-800 border-l border-slate-200 truncate max-w-[100px]" title={role.title}>
-                                {role.title.substring(0, 4)}...
-                            </th>
-                        ))}
+                        {creditRoles.map(role => {
+                            const Icon = role.icon;
+                            return (
+                                <th key={role.id} scope="col" className="px-3 py-3 text-center font-serif text-sm font-semibold text-slate-900 bg-white border-b-2 border-slate-800 border-l border-slate-200" title={role.title}>
+                                    <div className="flex justify-center">
+                                        <Icon size={18} className="text-slate-700" strokeWidth={1.5} />
+                                    </div>
+                                </th>
+                            );
+                        })}
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { UserPlus, Trash, FileDown, LayoutGrid, Table, AlignLeft, Users, Copy, Check } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { UserPlus, Trash, FileDown, LayoutGrid, Table, AlignLeft, Users, Copy, Check, ChevronDown, Download, FileText, Image as ImageIcon } from 'lucide-react';
 import { useBuilderState } from '../../hooks/useBuilderState';
 import { MatrixView, TableView, InlineMatrixView, AuthorListView, RoleListView } from './views';
-import { downloadAsJson, copyToClipboard } from '../../lib/exportUtils';
+import { downloadAsJson, downloadAsCsv, downloadAsMarkdown, copyToClipboard, copyTextToClipboard, generateMarkdownData, generateCsvData } from '../../lib/exportUtils';
+import { toPng } from 'html-to-image';
 
 type ViewMode = 'MATRIX' | 'TABLE' | 'INLINE_MATRIX' | 'AUTHOR_LIST' | 'ROLE_LIST';
 
@@ -19,12 +20,41 @@ export const BuilderView: React.FC = () => {
 
     const [viewMode, setViewMode] = useState<ViewMode>('MATRIX');
     const [isCopied, setIsCopied] = useState(false);
+    const [copyLabel, setCopyLabel] = useState('Copy JSON');
+    const [showExportMenu, setShowExportMenu] = useState(false);
 
-    const handleCopy = async () => {
+    const handleCopyJson = async () => {
         const success = await copyToClipboard(contributors);
-        if (success) {
-            setIsCopied(true);
-            setTimeout(() => setIsCopied(false), 2000);
+        if (success) showCopied('Copied JSON');
+    };
+
+    const handleCopyMarkdown = async () => {
+        const success = await copyTextToClipboard(generateMarkdownData(contributors));
+        if (success) showCopied('Copied MD');
+    };
+
+    const handleCopyCsv = async () => {
+        const success = await copyTextToClipboard(generateCsvData(contributors));
+        if (success) showCopied('Copied CSV');
+    };
+
+    const showCopied = (label: string) => {
+        setIsCopied(true);
+        setCopyLabel(label);
+        setTimeout(() => setIsCopied(false), 2000);
+    };
+
+    const handleDownloadPng = async () => {
+        const el = document.getElementById('export-target');
+        if (!el) return;
+        try {
+            const dataUrl = await toPng(el, { backgroundColor: '#ffffff' });
+            const link = document.createElement('a');
+            link.download = 'credit-matrix.png';
+            link.href = dataUrl;
+            link.click();
+        } catch (err) {
+            console.error('Failed to export image', err);
         }
     };
 
@@ -52,27 +82,75 @@ export const BuilderView: React.FC = () => {
                             <span className="hidden sm:inline">Clear All</span>
                         </button>
 
-                        <div className="flex bg-slate-100 rounded-lg p-1 border border-slate-200">
+                        <div className="relative">
                             <button
-                                onClick={handleCopy}
+                                onClick={() => setShowExportMenu(!showExportMenu)}
                                 disabled={contributors.length === 0}
-                                className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold rounded-md text-slate-600 hover:bg-white hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all uppercase tracking-wider tooltip-trigger"
-                                title="Copy JSON"
+                                className="flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                             >
-                                {isCopied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
-                                <span className="hidden sm:inline">{isCopied ? 'Copied' : 'Copy'}</span>
+                                <FileDown size={16} />
+                                <span>Export / Copy</span>
+                                <ChevronDown size={14} className={`transition-transform ${showExportMenu ? 'rotate-180' : ''}`} />
                             </button>
-                            <div className="w-px bg-slate-200 mx-1 my-1"></div>
-                            <button
-                                onClick={() => downloadAsJson(contributors)}
-                                disabled={contributors.length === 0}
-                                className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold rounded-md bg-white text-indigo-600 hover:bg-slate-50 hover:text-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm uppercase tracking-wider"
-                                title="Download JSON"
-                            >
-                                <FileDown size={14} />
-                                <span className="hidden sm:inline">JSON</span>
-                            </button>
+
+                            {/* Export Dropdown */}
+                            <AnimatePresence>
+                                {showExportMenu && (
+                                    <>
+                                        <div className="fixed inset-0 z-40" onClick={() => setShowExportMenu(false)} />
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            transition={{ duration: 0.15 }}
+                                            className="absolute right-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-xl z-50 overflow-hidden"
+                                        >
+                                            <div className="p-2 space-y-1 bg-slate-50 border-b border-slate-100">
+                                                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-2 py-1">Quick Copy</div>
+                                                <button onClick={() => { handleCopyJson(); setShowExportMenu(false); }} className="w-full flex items-center justify-between gap-2 px-2 py-1.5 text-sm font-semibold text-slate-700 hover:bg-white hover:text-indigo-600 rounded-lg transition-colors">
+                                                    <span className="flex items-center gap-2"><Copy size={14} /> JSON</span>
+                                                </button>
+                                                <button onClick={() => { handleCopyMarkdown(); setShowExportMenu(false); }} className="w-full flex items-center justify-between gap-2 px-2 py-1.5 text-sm font-semibold text-slate-700 hover:bg-white hover:text-indigo-600 rounded-lg transition-colors">
+                                                    <span className="flex items-center gap-2"><Copy size={14} /> Markdown</span>
+                                                </button>
+                                                <button onClick={() => { handleCopyCsv(); setShowExportMenu(false); }} className="w-full flex items-center justify-between gap-2 px-2 py-1.5 text-sm font-semibold text-slate-700 hover:bg-white hover:text-indigo-600 rounded-lg transition-colors">
+                                                    <span className="flex items-center gap-2"><Copy size={14} /> CSV</span>
+                                                </button>
+                                            </div>
+                                            <div className="p-2 space-y-1">
+                                                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-2 py-1">Download As</div>
+                                                <button onClick={() => { handleDownloadPng(); setShowExportMenu(false); }} className="w-full flex items-center gap-2 px-2 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                                                    <ImageIcon size={14} /> PNG Image
+                                                </button>
+                                                <button onClick={() => { downloadAsCsv(contributors); setShowExportMenu(false); }} className="w-full flex items-center gap-2 px-2 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                                                    <Table size={14} /> CSV Report
+                                                </button>
+                                                <button onClick={() => { downloadAsMarkdown(contributors); setShowExportMenu(false); }} className="w-full flex items-center gap-2 px-2 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                                                    <FileText size={14} /> Markdown Table
+                                                </button>
+                                                <button onClick={() => { downloadAsJson(contributors); setShowExportMenu(false); }} className="w-full flex items-center gap-2 px-2 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                                                    <Download size={14} /> JSON File
+                                                </button>
+                                            </div>
+                                        </motion.div>
+                                    </>
+                                )}
+                            </AnimatePresence>
                         </div>
+
+                        {/* Status Toast for Copy */}
+                        <AnimatePresence>
+                            {isCopied && (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0 }}
+                                    className="absolute top-24 right-8 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 font-bold text-sm z-50"
+                                >
+                                    <Check size={16} /> {copyLabel}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
                 </div>
 
@@ -99,7 +177,7 @@ export const BuilderView: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="w-full relative min-h-[300px] flex flex-col gap-4">
+                    <div id="export-target" className="w-full relative min-h-[300px] flex flex-col gap-4 bg-white rounded-xl">
                         {viewMode === 'MATRIX' && <MatrixView contributors={contributors} onUpdateName={updateContributorName} onToggleRole={toggleContributorRole} onRemove={removeContributor} />}
                         {viewMode === 'TABLE' && <TableView contributors={contributors} />}
                         {viewMode === 'INLINE_MATRIX' && <InlineMatrixView contributors={contributors} />}
