@@ -205,7 +205,7 @@ export const MobileBuilderView: React.FC = () => {
                                                                 }`}
                                                         >
                                                             <Icon size={14} strokeWidth={1.5} />
-                                                            <span className="truncate">{role.title.split(' ')[0]}</span>
+                                                            <span className="overflow-hidden whitespace-nowrap">{role.title.split(' ')[0]}</span>
                                                         </button>
                                                     );
                                                 })}
@@ -263,12 +263,8 @@ export const MobileBuilderView: React.FC = () => {
                                     <tr key={c.id}>
                                         <td className="px-3 py-2 text-sm font-semibold text-slate-800 whitespace-nowrap sticky left-0 bg-white border-r border-slate-200">{c.name || 'Unnamed'}</td>
                                         {activeRoles.map(role => (
-                                            <td key={role.id} className="px-2 py-2 text-center border-l border-slate-100">
-                                                <div className="flex justify-center">
-                                                    {c.roles.includes(role.id) && (
-                                                        <div className="w-4 h-4 rounded-sm bg-slate-800" />
-                                                    )}
-                                                </div>
+                                            <td key={role.id} className="px-2 py-2 text-center border-l border-slate-100 text-slate-800 font-bold">
+                                                {c.roles.includes(role.id) ? '•' : ''}
                                             </td>
                                         ))}
                                     </tr>
