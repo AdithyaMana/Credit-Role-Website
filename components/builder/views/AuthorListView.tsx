@@ -16,18 +16,25 @@ export const AuthorListView: React.FC<AuthorListViewProps> = ({ contributors }) 
             </h3>
             <div className="space-y-4 font-serif text-[15px] leading-relaxed text-slate-800">
                 {contributors.map(contributor => {
-                    const authorRoleTitles = contributor.roles
-                        .map(roleId => creditRoles.find(r => r.id === roleId)?.title)
-                        .filter(Boolean);
-
                     return (
-                        <div key={contributor.id}>
-                            <strong className="font-sans font-semibold text-slate-900">{contributor.name}:</strong>{' '}
-                            {authorRoleTitles.length > 0 ? (
-                                <span>{authorRoleTitles.join(', ')}.</span>
-                            ) : (
-                                <span className="italic text-slate-400">No roles specified.</span>
-                            )}
+                        <div key={contributor.id} className="flex flex-col gap-1">
+                            <strong className="font-sans font-semibold text-slate-900">{contributor.name}</strong>
+                            <div className="flex flex-wrap gap-2 text-sm text-slate-600 italic">
+                                {contributor.roles.length > 0 ? (
+                                    contributor.roles.map(roleId => {
+                                        const role = creditRoles.find(r => r.id === roleId);
+                                        const Icon = role?.icon;
+                                        return (
+                                            <span key={roleId} className="inline-flex items-center gap-1 bg-slate-100 px-2 py-0.5 rounded-full not-italic">
+                                                {Icon && <Icon size={12} strokeWidth={2} />}
+                                                {role?.title}
+                                            </span>
+                                        );
+                                    })
+                                ) : (
+                                    <span className="italic text-slate-400">No roles specified.</span>
+                                )}
+                            </div>
                         </div>
                     );
                 })}
