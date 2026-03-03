@@ -136,7 +136,7 @@ const App: React.FC = () => {
         )}
       </div>
 
-      <div className="lg:hidden h-full">
+      <div className="lg:hidden h-full relative z-10">
         <MobileLayout
           onOpenShowcase={() => setIsShowcaseOpen(true)}
           onOpenAbout={() => setIsAboutOpen(true)}
