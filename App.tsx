@@ -14,7 +14,7 @@ import spreadsheetUrl from './assets/icon-spreadsheet.png';
 type Tab = 'visualizer' | 'builder';
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<Tab>('builder');
+  const [activeTab, setActiveTab] = useState<Tab>('visualizer');
   const [selectedRole, setSelectedRole] = useState<CreditRole | null>(creditRoles[0]);
   const [lockedRole, setLockedRole] = useState<CreditRole | null>(null);
   const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
