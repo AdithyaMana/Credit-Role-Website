@@ -17,9 +17,8 @@ export const RoleListView: React.FC<RoleListViewProps> = ({ contributors }) => {
                 .map(c => c.name);
 
             return {
-                roleId: role.id,
                 roleTitle: role.title,
-                Icon: role.icon,
+                icon: role.icon,
                 authors: activeContributors
             };
         }).filter(group => group.authors.length > 0);
@@ -36,12 +35,14 @@ export const RoleListView: React.FC<RoleListViewProps> = ({ contributors }) => {
             ) : (
                 <div className="space-y-4 font-serif text-[15px] leading-relaxed text-slate-800">
                     {roleToAuthors.map((group, idx) => (
-                        <div key={group.roleId} className="flex flex-col gap-1">
-                            <div className="flex items-center gap-2">
-                                <group.Icon size={16} className="text-slate-700" strokeWidth={1.5} />
-                                <strong className="font-sans font-semibold text-slate-900">{group.roleTitle}</strong>
+                        <div key={idx} className="flex items-start gap-3">
+                            <div className="mt-1">
+                                <group.icon size={18} className="text-slate-600" strokeWidth={1.5} />
                             </div>
-                            <span className="text-slate-600 pl-6">{group.authors.join(', ')}.</span>
+                            <div>
+                                <strong className="font-sans font-semibold text-slate-900">{group.roleTitle}:</strong>{' '}
+                                <span>{group.authors.join(', ')}.</span>
+                            </div>
                         </div>
                     ))}
                 </div>

@@ -16,25 +16,28 @@ export const AuthorListView: React.FC<AuthorListViewProps> = ({ contributors }) 
             </h3>
             <div className="space-y-4 font-serif text-[15px] leading-relaxed text-slate-800">
                 {contributors.map(contributor => {
+                    const authorRoles = contributor.roles
+                        .map(roleId => creditRoles.find(r => r.id === roleId))
+                        .filter(Boolean);
+
                     return (
-                        <div key={contributor.id} className="flex flex-col gap-1">
-                            <strong className="font-sans font-semibold text-slate-900">{contributor.name}</strong>
-                            <div className="flex flex-wrap gap-2 text-sm text-slate-600 italic">
-                                {contributor.roles.length > 0 ? (
-                                    contributor.roles.map(roleId => {
-                                        const role = creditRoles.find(r => r.id === roleId);
-                                        const Icon = role?.icon;
+                        <div key={contributor.id}>
+                            <strong className="font-sans font-semibold text-slate-900">{contributor.name}:</strong>{' '}
+                            {authorRoles.length > 0 ? (
+                                <div className="inline-flex flex-wrap items-center gap-2">
+                                    {authorRoles.map(role => {
+                                        const Icon = role!.icon;
                                         return (
-                                            <span key={roleId} className="inline-flex items-center gap-1 bg-slate-100 px-2 py-0.5 rounded-full not-italic">
-                                                {Icon && <Icon size={12} strokeWidth={2} />}
-                                                {role?.title}
+                                            <span key={role!.id} className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium border border-slate-200">
+                                                <Icon size={12} strokeWidth={2} />
+                                                <span>{role!.title}</span>
                                             </span>
                                         );
-                                    })
-                                ) : (
-                                    <span className="italic text-slate-400">No roles specified.</span>
-                                )}
-                            </div>
+                                    })}
+                                </div>
+                            ) : (
+                                <span className="italic text-slate-400 text-sm">No roles specified.</span>
+                            )}
                         </div>
                     );
                 })}

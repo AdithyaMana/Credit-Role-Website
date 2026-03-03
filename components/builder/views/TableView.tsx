@@ -35,15 +35,14 @@ export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
                             </td>
                             {creditRoles.map(role => {
                                 const Icon = role.icon;
-                                const hasRole = contributor.roles.includes(role.id);
                                 return (
                                     <td
                                         key={role.id}
                                         className="px-3 py-3 text-center border-l border-slate-200"
                                     >
-                                        {hasRole ? (
-                                            <div className="flex justify-center">
-                                                <Icon size={16} className="text-slate-800" strokeWidth={1.5} />
+                                        {contributor.roles.includes(role.id) ? (
+                                            <div className="flex justify-center opacity-60">
+                                                <Icon size={14} className="text-slate-700" strokeWidth={2} />
                                             </div>
                                         ) : (
                                             <span className="text-slate-200">—</span>
