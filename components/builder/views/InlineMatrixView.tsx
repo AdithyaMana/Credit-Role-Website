@@ -7,50 +7,72 @@ interface InlineMatrixViewProps {
 }
 
 export const InlineMatrixView: React.FC<InlineMatrixViewProps> = ({ contributors }) => {
-    // Filter to only show roles that have been assigned to at least one author
+    // Only show roles assigned to at least one contributor
     const activeRoles = creditRoles.filter(role =>
         contributors.some(c => c.roles.includes(role.id))
     );
 
+    if (contributors.length === 0 || activeRoles.length === 0) {
+        return (
+            <div className="w-full py-12 text-center text-slate-400 italic text-sm">
+                No roles assigned yet. Use the Matrix Grid to assign roles.
+            </div>
+        );
+    }
+
     return (
-        <div className="w-full overflow-x-auto border border-slate-200 rounded-xl bg-white shadow-sm custom-scrollbar relative">
-            <table className="min-w-full border-separate border-spacing-0">
+        <div className="w-full overflow-x-auto rounded-lg border border-slate-300 bg-white shadow-sm">
+            <table className="border-collapse">
+                {/* Header: vertical role names */}
                 <thead>
-                    <tr className="bg-slate-50/80 backdrop-blur-sm">
-                        <th className="px-6 py-4 text-left text-xs font-bold text-slate-800 uppercase tracking-widest sticky top-0 left-0 z-40 bg-slate-50 border-b-2 border-r-2 border-slate-900 h-40 align-bottom">
-                            Contributor
+                    <tr>
+                        {/* Top-left corner cell */}
+                        <th className="sticky left-0 z-30 bg-white border-b-2 border-r border-slate-400 px-4 py-2 text-left text-xs font-bold text-slate-600 uppercase tracking-wider align-bottom">
+                            Author
                         </th>
-                        {activeRoles.map(role => (
-                            <th key={role.id} className="px-0 py-0 text-center min-w-[40px] sticky top-0 z-30 bg-slate-50 border-b-2 border-slate-900 border-r border-slate-200 h-40 align-bottom group">
-                                <div className="w-10 h-32 relative mx-auto">
-                                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 -rotate-90 origin-center whitespace-nowrap text-[10px] font-bold tracking-wider uppercase text-slate-600 group-hover:text-slate-950 transition-colors">
-                                        {role.title}
+                        {activeRoles.map(role => {
+                            const Icon = role.icon;
+                            return (
+                                <th
+                                    key={role.id}
+                                    className="border-b-2 border-slate-400 border-l border-slate-200 px-0 py-2 align-bottom"
+                                    style={{ width: 36 }}
+                                >
+                                    <div className="flex flex-col items-center justify-end h-full gap-1 pb-1" title={role.title}>
+                                        <Icon size={14} className="text-slate-500" strokeWidth={1.5} />
                                     </div>
-                                </div>
-                            </th>
-                        ))}
+                                </th>
+                            );
+                        })}
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200">
-                    {contributors.map(contributor => (
-                        <tr key={contributor.id} className="hover:bg-slate-50/80 transition-colors group">
-                            <td className="px-6 py-3 whitespace-nowrap text-sm font-bold text-slate-900 sticky left-0 z-20 bg-white group-hover:bg-slate-50/80 border-r-2 border-slate-900 transition-colors">
-                                {contributor.name || 'Unnamed Author'}
+
+                {/* Body: author rows with filled/empty cells */}
+                <tbody>
+                    {contributors.map((contributor, rowIdx) => (
+                        <tr key={contributor.id} className="group">
+                            {/* Author name */}
+                            <td className={`sticky left-0 z-20 bg-white px-4 py-2 text-sm font-semibold text-slate-800 whitespace-nowrap border-r border-slate-400 group-hover:bg-slate-50 transition-colors ${rowIdx < contributors.length - 1 ? 'border-b border-slate-200' : ''}`}>
+                                {contributor.name || 'Unnamed'}
                             </td>
+                            {/* Role cells */}
                             {activeRoles.map(role => {
                                 const hasRole = contributor.roles.includes(role.id);
                                 return (
                                     <td
                                         key={role.id}
-                                        className={`p-0 text-center border-r border-slate-200 h-10 transition-colors ${hasRole ? 'bg-slate-900' : 'bg-white'}`}
+                                        className={`text-center border-l border-slate-200 ${rowIdx < contributors.length - 1 ? 'border-b border-slate-200' : ''}`}
+                                        style={{ width: 36, height: 32, padding: 0 }}
                                     >
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            {hasRole ? (
-                                                <div className="w-1.5 h-1.5 rounded-full bg-white opacity-40 shadow-sm" />
-                                            ) : (
-                                                <div className="w-1 h-1 rounded-full bg-slate-100" />
-                                            )}
-                                        </div>
+                                        {hasRole ? (
+                                            <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+                                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                                    <circle cx="6" cy="6" r="3" fill="white" opacity="0.5" />
+                                                </svg>
+                                            </div>
+                                        ) : (
+                                            <div className="w-full h-full bg-slate-50" />
+                                        )}
                                     </td>
                                 );
                             })}
