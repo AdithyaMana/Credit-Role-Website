@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Lightbulb, ClipboardList, Database, BarChart3, Search, Microscope, Code, LucideIcon } from 'lucide-react';
-import MockPublicationTable from './MockPublicationTable';
+import MockPublicationTable from '../visualizer/MockPublicationTable';
 
 // 1. DATA STRUCTURE (Restored names and affiliations)
 interface Contributor {

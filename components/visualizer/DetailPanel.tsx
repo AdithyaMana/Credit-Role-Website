@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CreditRole, CategoryType } from '../types';
+import { CreditRole, CategoryType } from '../../types';
 import clsx from 'clsx';
 import { Info, Hexagon as HexIcon, CheckCircle, Download } from 'lucide-react';
 

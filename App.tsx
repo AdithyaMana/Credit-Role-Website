@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import HexGrid from './components/HexGrid';
-import DetailPanel from './components/DetailPanel';
+import HexGrid from './components/visualizer/HexGrid';
+import DetailPanel from './components/visualizer/DetailPanel';
 import { MobileLayout } from './components/MobileLayout';
-import ShowcaseModal from './components/ShowcaseModal';
-import AboutModal from './components/AboutModal';
+import ShowcaseModal from './components/modals/ShowcaseModal';
+import AboutModal from './components/modals/AboutModal';
 import { CreditRole } from './types';
 import { creditRoles } from './data/roles';
 import { Eye, Info, Download } from 'lucide-react';
 import scienceUXLogoUrl from './assets/scienceux-logo.png';
 import spreadsheetUrl from './assets/icon-spreadsheet.png';
 
+type Tab = 'visualizer' | 'builder';
+
 const App: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<Tab>('builder');
   const [selectedRole, setSelectedRole] = useState<CreditRole | null>(creditRoles[0]);
   const [lockedRole, setLockedRole] = useState<CreditRole | null>(null);
   const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
@@ -42,6 +45,21 @@ const App: React.FC = () => {
               <a href="https://scienceux.org/" target="_blank" rel="noopener noreferrer">
                 <img src={scienceUXLogoUrl} alt="ScienceUX Logo" className="h-10 w-auto opacity-100" />
               </a>
+
+              <div className="flex bg-slate-200/50 backdrop-blur rounded-full p-1 ml-4 border border-slate-200/50">
+                <button
+                  onClick={() => setActiveTab('visualizer')}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${activeTab === 'visualizer' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                >
+                  Taxonomy Visualizer
+                </button>
+                <button
+                  onClick={() => setActiveTab('builder')}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${activeTab === 'builder' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                >
+                  CRediT Builder
+                </button>
+              </div>
             </div>
 
             <div className="flex items-center gap-3 pointer-events-auto">
@@ -71,37 +89,50 @@ const App: React.FC = () => {
             </div>
           </header>
 
-          <div className="flex-1 w-full h-full flex flex-col items-center justify-center pt-24 pb-12">
-            <div className="text-center z-10 flex-shrink-0 animate-in fade-in zoom-in duration-700 px-4">
-              {/* Smaller Desktop Title */}
-              <h1 className="text-xl lg:text-2xl xl:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
-                CRediT Role Icons
-              </h1>
-              <p className="text-[10px] xl:text-[11px] text-slate-400 font-bold tracking-[0.25em] uppercase mt-2">
-                Contributor Roles Taxonomy
-              </p>
-            </div>
+          {activeTab === 'visualizer' ? (
+            <div className="flex-1 w-full h-full flex flex-col items-center justify-center pt-24 pb-12">
+              <div className="text-center z-10 flex-shrink-0 animate-in fade-in zoom-in duration-700 px-4">
+                {/* Smaller Desktop Title */}
+                <h1 className="text-xl lg:text-2xl xl:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
+                  CRediT Role Icons
+                </h1>
+                <p className="text-[10px] xl:text-[11px] text-slate-400 font-bold tracking-[0.25em] uppercase mt-2">
+                  Contributor Roles Taxonomy
+                </p>
+              </div>
 
-            <div className="flex-1 w-full flex items-center justify-center overflow-hidden min-h-0">
-              <div className="transform transition-transform duration-500 ease-out origin-center scale-[0.60] lg:scale-[0.65] xl:scale-[0.80] 2xl:scale-100">
-                <HexGrid
-                  selectedId={selectedRole?.id || null}
-                  lockedId={lockedRole?.id || null}
-                  onSelect={(role) => {
-                    if (lockedRole?.id === role.id) {
-                      setLockedRole(null);
-                    } else {
-                      setLockedRole(role);
-                      setSelectedRole(role);
-                    }
-                  }}
-                  onHover={(role) => {
-                    if (!lockedRole) setSelectedRole(role);
-                  }}
-                />
+              <div className="flex-1 w-full flex items-center justify-center overflow-hidden min-h-0">
+                <div className="transform transition-transform duration-500 ease-out origin-center scale-[0.60] lg:scale-[0.65] xl:scale-[0.80] 2xl:scale-100">
+                  <HexGrid
+                    selectedId={selectedRole?.id || null}
+                    lockedId={lockedRole?.id || null}
+                    onSelect={(role) => {
+                      if (lockedRole?.id === role.id) {
+                        setLockedRole(null);
+                      } else {
+                        setLockedRole(role);
+                        setSelectedRole(role);
+                      }
+                    }}
+                    onHover={(role) => {
+                      if (!lockedRole) setSelectedRole(role);
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex-1 w-full h-full flex flex-col items-center justify-center pt-24 pb-12">
+              <div className="text-center z-10 flex-shrink-0 animate-in fade-in zoom-in duration-700 px-4">
+                <h1 className="text-xl lg:text-2xl xl:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
+                  CRediT Builder
+                </h1>
+                <p className="text-[10px] xl:text-[11px] text-slate-400 font-bold tracking-[0.25em] uppercase mt-2">
+                  Coming Soon
+                </p>
+              </div>
+            </div>
+          )}
         </main>
 
         <aside className="shrink-0 w-[400px] xl:w-[500px] 2xl:w-[600px] h-full z-30 relative shadow-2xl">

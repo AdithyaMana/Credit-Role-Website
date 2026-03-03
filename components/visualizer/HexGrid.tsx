@@ -1,7 +1,7 @@
 import React from 'react';
 import Hexagon from './Hexagon';
-import { CreditRole, CategoryType } from '../types';
-import { creditRoles } from '../data/roles';
+import { CreditRole, CategoryType } from '../../types';
+import { creditRoles } from '../../data/roles';
 import clsx from 'clsx';
 
 interface HexGridProps {
