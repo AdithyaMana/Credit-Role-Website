@@ -42,13 +42,9 @@ export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
                             {activeRoles.map(role => (
                                 <td
                                     key={role.id}
-                                    className="px-3 py-3 text-center border-l border-slate-200"
+                                    className="px-3 py-3 text-center border-l border-slate-200 text-slate-800 font-bold"
                                 >
-                                    <div className="flex justify-center">
-                                        {contributor.roles.includes(role.id) && (
-                                            <div className="w-4 h-4 rounded-sm bg-slate-800" />
-                                        )}
-                                    </div>
+                                    {contributor.roles.includes(role.id) ? '•' : ''}
                                 </td>
                             ))}
                         </tr>
