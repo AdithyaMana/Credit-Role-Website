@@ -1,10 +1,10 @@
 # ROADMAP.md
 
-> **Current Phase**: Not started
+> **Current Phase**: 1
 > **Milestone**: v2.0 (Builder Integration)
 
 ## Must-Haves (from SPEC)
-- [ ] Refactor existing code for cleaner architecture and premium UI/UX.
+- [x] Refactor existing code for cleaner architecture and premium UI/UX.
 - [ ] Implement robust Form and State layer for contributor definitions.
 - [ ] Implement Matrix & List view modes matching the 5 requested variations.
 - [ ] Add JSON Export and Copy to Clipboard implementations.
@@ -12,7 +12,7 @@
 ## Phases
 
 ### Phase 1: Codebase Refactor & Design System
-**Status**: ⬜ Not Started
+**Status**: ✅ Complete
 **Objective**: Clean up `App.tsx` and structure components logically. Establish a clear UI system (typography, spacing, interactive states) for the new "premium" feel.
 **Requirements**: REQ-01, REQ-02
 
