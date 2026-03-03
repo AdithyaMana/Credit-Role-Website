@@ -66,9 +66,9 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                 {creditRoles.map(role => {
                                     const Icon = role.icon;
                                     return (
-                                        <th key={role.id} scope="col" className="px-3 py-4 text-center min-w-[70px] bg-white sticky top-0 z-30 border-b-2 border-slate-800 border-l border-slate-200">
+                                        <th key={role.id} scope="col" className="px-1 py-4 text-center min-w-[48px] bg-white sticky top-0 z-30 border-b-2 border-slate-800 border-l border-slate-200">
                                             <div className="flex flex-col items-center gap-2 group relative" title={role.title}>
-                                                <Icon size={20} className="text-slate-800" strokeWidth={2} />
+                                                <Icon size={18} className="text-slate-700" strokeWidth={1.5} />
                                                 <span className="hidden opacity-0 group-hover:opacity-100 absolute bottom-full mb-2 bg-slate-800 text-white text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded transition-opacity whitespace-nowrap z-30">
                                                     {role.title}
                                                 </span>
@@ -83,7 +83,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                     Role
                                 </th>
                                 {contributors.map(contributor => (
-                                    <th key={contributor.id} scope="col" className="px-3 py-4 text-center min-w-[140px] bg-white sticky top-0 z-30 border-b-2 border-slate-800 group">
+                                    <th key={contributor.id} scope="col" className="px-1 py-4 text-center min-w-[100px] bg-white sticky top-0 z-30 border-b-2 border-slate-800 group border-l border-slate-200">
                                         <div className="flex items-center justify-center gap-1 relative w-full h-full">
                                             <input
                                                 type="text"
@@ -140,11 +140,11 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                                 {hasRole ? (
                                                     <div className="w-full flex justify-center pointer-events-none">
                                                         <div className="w-6 h-6 flex items-center justify-center scale-110 transition-transform">
-                                                            <Icon size={16} className="text-slate-900" strokeWidth={3} />
+                                                            <Icon size={18} className="text-slate-600" strokeWidth={1.5} />
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <span className="text-slate-300 block group-hover:text-slate-400 pointer-events-none">—</span>
+                                                    <span className="text-slate-200 block group-hover:text-slate-400 pointer-events-none">—</span>
                                                 )}
                                             </td>
                                         );
@@ -158,7 +158,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                     <tr key={role.id} className="hover:bg-slate-50 transition-colors group">
                                         <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-slate-800 sticky left-0 z-20 bg-white border-r-2 border-slate-800 group-hover:bg-slate-50 transition-colors">
                                             <div className="flex items-center gap-3">
-                                                <Icon size={16} className="text-slate-800" strokeWidth={2} />
+                                                <Icon size={16} className="text-slate-700" strokeWidth={1.5} />
                                                 <span>{role.title}</span>
                                             </div>
                                         </td>
@@ -173,12 +173,12 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                                 >
                                                     {hasRole ? (
                                                         <div className="w-full flex justify-center pointer-events-none">
-                                                            <div className="w-6 h-6 rounded bg-slate-50 flex items-center justify-center border border-slate-200 shadow-sm scale-110 transition-transform">
-                                                                <Icon size={14} className={getCategoryColorText(role.category)} strokeWidth={3} />
+                                                            <div className="w-6 h-6 flex items-center justify-center scale-110 transition-transform">
+                                                                <Icon size={18} className="text-slate-600" strokeWidth={1.5} />
                                                             </div>
                                                         </div>
                                                     ) : (
-                                                        <span className="text-slate-200/50 block group-hover:text-slate-300 pointer-events-none">—</span>
+                                                        <span className="text-slate-200 block group-hover:text-slate-400 pointer-events-none">—</span>
                                                     )}
                                                 </td>
                                             );

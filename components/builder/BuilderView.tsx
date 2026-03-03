@@ -30,7 +30,7 @@ export const BuilderView: React.FC = () => {
 
     return (
         <div className="w-full h-full flex flex-col pt-24 pb-12 overflow-y-auto custom-scrollbar">
-            <div className="max-w-5xl mx-auto w-full px-4 md:px-8 space-y-8 pb-32">
+            <div className="max-w-7xl mx-auto w-full px-4 md:px-8 space-y-8 pb-32">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
