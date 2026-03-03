@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { UserPlus, Trash, FileDown } from 'lucide-react';
+import { UserPlus, Trash, FileDown, LayoutGrid, Table, AlignLeft, Users } from 'lucide-react';
 import { useBuilderState } from '../../hooks/useBuilderState';
 import { ContributorCard } from './ContributorCard';
+import { MatrixView, TableView, InlineMatrixView, AuthorListView, RoleListView } from './views';
+
+type ViewMode = 'MATRIX' | 'TABLE' | 'INLINE_MATRIX' | 'AUTHOR_LIST' | 'ROLE_LIST';
 
 export const BuilderView: React.FC = () => {
     const {
@@ -13,6 +16,8 @@ export const BuilderView: React.FC = () => {
         toggleContributorRole,
         clearAll,
     } = useBuilderState();
+
+    const [viewMode, setViewMode] = useState<ViewMode>('MATRIX');
 
     return (
         <div className="w-full h-full flex flex-col pt-24 pb-12 overflow-y-auto custom-scrollbar">
@@ -74,6 +79,44 @@ export const BuilderView: React.FC = () => {
                         <span className="font-semibold font-sans tracking-wide uppercase text-[10px] md:text-xs">Add Contributor</span>
                     </button>
                 </div>
+
+                {/* Output Preview Section */}
+                {contributors.length > 0 && (
+                    <div className="pt-12 space-y-6">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+                            <div>
+                                <h2 className="text-xl font-bold text-slate-900 tracking-tight">Output Preview</h2>
+                                <p className="text-sm text-slate-500 mt-1">Select a format to view your taxonomy data.</p>
+                            </div>
+
+                            <div className="flex bg-slate-100/80 p-1 rounded-xl shadow-inner border border-slate-200 gap-1 overflow-x-auto custom-scrollbar">
+                                <button onClick={() => setViewMode('MATRIX')} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${viewMode === 'MATRIX' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}>
+                                    <LayoutGrid size={14} /> Matrix
+                                </button>
+                                <button onClick={() => setViewMode('TABLE')} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${viewMode === 'TABLE' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}>
+                                    <Table size={14} /> Table
+                                </button>
+                                <button onClick={() => setViewMode('INLINE_MATRIX')} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${viewMode === 'INLINE_MATRIX' ? 'bg-white text-red-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}>
+                                    <AlignLeft size={14} /> Inline Matrix
+                                </button>
+                                <button onClick={() => setViewMode('AUTHOR_LIST')} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${viewMode === 'AUTHOR_LIST' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}>
+                                    <Users size={14} /> Author List
+                                </button>
+                                <button onClick={() => setViewMode('ROLE_LIST')} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${viewMode === 'ROLE_LIST' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}>
+                                    <AlignLeft size={14} /> Role List
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="w-full relative min-h-[400px]">
+                            {viewMode === 'MATRIX' && <MatrixView contributors={contributors} />}
+                            {viewMode === 'TABLE' && <TableView contributors={contributors} />}
+                            {viewMode === 'INLINE_MATRIX' && <InlineMatrixView contributors={contributors} />}
+                            {viewMode === 'AUTHOR_LIST' && <AuthorListView contributors={contributors} />}
+                            {viewMode === 'ROLE_LIST' && <RoleListView contributors={contributors} />}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
