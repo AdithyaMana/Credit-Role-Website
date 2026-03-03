@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { creditRoles } from '../data/roles';
 import { CategoryType, CreditRole } from '../types';
 import clsx from 'clsx';
-import { X, ChevronRight, Info, CheckCircle, Eye, ArrowRight, Download } from 'lucide-react';
+import { X, ChevronRight, Info, CheckCircle, Eye, ArrowRight, Download, LayoutGrid, List } from 'lucide-react';
 import scienceUXLogoUrl from '../assets/scienceux-logo.png';
 import spreadsheetUrl from '../assets/icon-spreadsheet.png';
+import { MobileBuilderView } from '../components/builder/MobileBuilderView';
 
 // --- Theme and Icon Helpers ---
 const getTheme = (category: CategoryType) => {
@@ -153,11 +154,12 @@ interface MobileLayoutProps {
 
 export const MobileLayout: React.FC<MobileLayoutProps> = ({ onOpenShowcase, onOpenAbout }) => {
   const [selectedRole, setSelectedRole] = useState<CreditRole | null>(null);
+  const [mobileTab, setMobileTab] = useState<'roles' | 'builder'>('roles');
 
   const categories = [CategoryType.STRATEGY, CategoryType.RESEARCH, CategoryType.INFRASTRUCTURE, CategoryType.DISSEMINATION];
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans pb-12">
+    <div className="min-h-screen bg-slate-50 font-sans pb-20">
       {/* --- RESPONSIVE HEADER --- */}
       <header className="px-6 py-6 md:py-8 sticky top-0 z-40 flex items-center justify-between pointer-events-none">
         <div className="flex items-center gap-4 pointer-events-auto">
@@ -194,66 +196,101 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ onOpenShowcase, onOp
 
       <main className="max-w-6xl mx-auto px-0 md:px-6">
 
-        {/* --- TITLE SECTION --- */}
-        <div className="text-center pt-2 pb-10 md:pb-16 px-6">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight leading-tight">
-              CRediT Role Icons
-            </h1>
-            <p className="text-[10px] md:text-xs text-slate-400 font-bold tracking-[0.3em] uppercase mt-4">
-              Contributor Roles Taxonomy
-            </p>
-          </motion.div>
-        </div>
+        {mobileTab === 'roles' ? (
+          <>
 
-        {categories.map((cat) => {
-          const theme = getTheme(cat);
-          const catRoles = creditRoles.filter(r => r.category === cat);
+            {/* --- TITLE SECTION --- */}
+            <div className="text-center pt-2 pb-10 md:pb-16 px-6">
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <h1 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight leading-tight">
+                  CRediT Role Icons
+                </h1>
+                <p className="text-[10px] md:text-xs text-slate-400 font-bold tracking-[0.3em] uppercase mt-4">
+                  Contributor Roles Taxonomy
+                </p>
+              </motion.div>
+            </div>
 
-          return (
-            <section key={cat} className="mb-8 md:mb-16">
-              <div className={clsx(
-                "px-6 py-4 flex items-center gap-3 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] transition-all",
-                "sticky top-0 md:static z-30 border-y md:border-none bg-slate-50/95 backdrop-blur-sm md:bg-transparent",
-                theme.header
-              )}>
-                <div className={clsx("w-2.5 h-2.5 rounded-full shadow-sm", theme.accent)} />
-                {cat}
-              </div>
+            {categories.map((cat) => {
+              const theme = getTheme(cat);
+              const catRoles = creditRoles.filter(r => r.category === cat);
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-4 bg-white md:bg-transparent">
-                {catRoles.map((role) => (
-                  <motion.div
-                    key={role.id}
-                    onClick={() => setSelectedRole(role)}
-                    whileTap={{ scale: 0.98 }}
-                    className={clsx(
-                      "group relative flex items-center gap-5 cursor-pointer transition-all",
-                      "px-6 py-6 border-b border-slate-100 last:border-0 active:bg-slate-50",
-                      "md:border md:border-slate-200 md:rounded-3xl md:bg-white md:shadow-sm md:hover:shadow-md md:hover:border-slate-300 md:mb-0"
-                    )}
-                  >
-                    <div className="flex-shrink-0">
-                      <ListHexIcon role={role} className="w-12 h-14" />
-                    </div>
+              return (
+                <section key={cat} className="mb-8 md:mb-16">
+                  <div className={clsx(
+                    "px-6 py-4 flex items-center gap-3 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] transition-all",
+                    "sticky top-0 md:static z-30 border-y md:border-none bg-slate-50/95 backdrop-blur-sm md:bg-transparent",
+                    theme.header
+                  )}>
+                    <div className={clsx("w-2.5 h-2.5 rounded-full shadow-sm", theme.accent)} />
+                    {cat}
+                  </div>
 
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-slate-800 text-lg leading-tight group-hover:text-indigo-600 transition-colors">
-                        {role.title}
-                      </h3>
-                      <p className="hidden md:block text-slate-500 text-sm mt-1 line-clamp-1 opacity-70">
-                        {role.description}
-                      </p>
-                    </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-4 bg-white md:bg-transparent">
+                    {catRoles.map((role) => (
+                      <motion.div
+                        key={role.id}
+                        onClick={() => setSelectedRole(role)}
+                        whileTap={{ scale: 0.98 }}
+                        className={clsx(
+                          "group relative flex items-center gap-5 cursor-pointer transition-all",
+                          "px-6 py-6 border-b border-slate-100 last:border-0 active:bg-slate-50",
+                          "md:border md:border-slate-200 md:rounded-3xl md:bg-white md:shadow-sm md:hover:shadow-md md:hover:border-slate-300 md:mb-0"
+                        )}
+                      >
+                        <div className="flex-shrink-0">
+                          <ListHexIcon role={role} className="w-12 h-14" />
+                        </div>
 
-                    <ChevronRight size={20} className="text-slate-300 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-          );
-        })}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-slate-800 text-lg leading-tight group-hover:text-indigo-600 transition-colors">
+                            {role.title}
+                          </h3>
+                          <p className="hidden md:block text-slate-500 text-sm mt-1 line-clamp-1 opacity-70">
+                            {role.description}
+                          </p>
+                        </div>
+
+                        <ChevronRight size={20} className="text-slate-300 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
+                      </motion.div>
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
+          </>
+        ) : (
+          <div className="px-4 pt-2 pb-8">
+            <MobileBuilderView />
+          </div>
+        )}
       </main>
+
+      {/* --- BOTTOM TAB BAR --- */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+        <div className="flex">
+          <button
+            onClick={() => setMobileTab('roles')}
+            className={clsx(
+              'flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-bold uppercase tracking-wider transition-colors',
+              mobileTab === 'roles' ? 'text-indigo-600' : 'text-slate-400'
+            )}
+          >
+            <List size={20} />
+            <span>Roles</span>
+          </button>
+          <button
+            onClick={() => setMobileTab('builder')}
+            className={clsx(
+              'flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-bold uppercase tracking-wider transition-colors',
+              mobileTab === 'builder' ? 'text-indigo-600' : 'text-slate-400'
+            )}
+          >
+            <LayoutGrid size={20} />
+            <span>Builder</span>
+          </button>
+        </div>
+      </div>
 
       {/* --- DRAWER FOR MOBILE DETAIL VIEW --- */}
       <DetailDrawer role={selectedRole} onClose={() => setSelectedRole(null)} />
