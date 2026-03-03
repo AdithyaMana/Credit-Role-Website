@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { UserPlus, Trash, FileDown, LayoutGrid, Table, AlignLeft, Users } from 'lucide-react';
+import { UserPlus, Trash, FileDown, LayoutGrid, Table, AlignLeft, Users, Copy, Check } from 'lucide-react';
 import { useBuilderState } from '../../hooks/useBuilderState';
 import { ContributorCard } from './ContributorCard';
 import { MatrixView, TableView, InlineMatrixView, AuthorListView, RoleListView } from './views';
+import { downloadAsJson, copyToClipboard } from '../../lib/exportUtils';
 
 type ViewMode = 'MATRIX' | 'TABLE' | 'INLINE_MATRIX' | 'AUTHOR_LIST' | 'ROLE_LIST';
 
@@ -18,6 +19,15 @@ export const BuilderView: React.FC = () => {
     } = useBuilderState();
 
     const [viewMode, setViewMode] = useState<ViewMode>('MATRIX');
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopy = async () => {
+        const success = await copyToClipboard(contributors);
+        if (success) {
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 2000);
+        }
+    };
 
     return (
         <div className="w-full h-full flex flex-col pt-24 pb-12 overflow-y-auto custom-scrollbar">
@@ -42,13 +52,28 @@ export const BuilderView: React.FC = () => {
                             <Trash size={16} />
                             <span className="hidden sm:inline">Clear All</span>
                         </button>
-                        <button
-                            disabled={contributors.length === 0}
-                            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
-                        >
-                            <FileDown size={16} />
-                            <span className="hidden sm:inline">Export Roles</span>
-                        </button>
+
+                        <div className="flex bg-slate-100 rounded-lg p-1 border border-slate-200">
+                            <button
+                                onClick={handleCopy}
+                                disabled={contributors.length === 0}
+                                className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold rounded-md text-slate-600 hover:bg-white hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all uppercase tracking-wider tooltip-trigger"
+                                title="Copy JSON"
+                            >
+                                {isCopied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
+                                <span className="hidden sm:inline">{isCopied ? 'Copied' : 'Copy'}</span>
+                            </button>
+                            <div className="w-px bg-slate-200 mx-1 my-1"></div>
+                            <button
+                                onClick={() => downloadAsJson(contributors)}
+                                disabled={contributors.length === 0}
+                                className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold rounded-md bg-white text-indigo-600 hover:bg-slate-50 hover:text-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm uppercase tracking-wider"
+                                title="Download JSON"
+                            >
+                                <FileDown size={14} />
+                                <span className="hidden sm:inline">JSON</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
