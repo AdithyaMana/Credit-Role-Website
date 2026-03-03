@@ -4,6 +4,7 @@ import DetailPanel from './components/visualizer/DetailPanel';
 import { MobileLayout } from './components/MobileLayout';
 import ShowcaseModal from './components/modals/ShowcaseModal';
 import AboutModal from './components/modals/AboutModal';
+import { BuilderView } from './components/builder/BuilderView';
 import { CreditRole } from './types';
 import { creditRoles } from './data/roles';
 import { Eye, Info, Download } from 'lucide-react';
@@ -122,22 +123,17 @@ const App: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="flex-1 w-full h-full flex flex-col items-center justify-center pt-24 pb-12">
-              <div className="text-center z-10 flex-shrink-0 animate-in fade-in zoom-in duration-700 px-4">
-                <h1 className="text-xl lg:text-2xl xl:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
-                  CRediT Builder
-                </h1>
-                <p className="text-[10px] xl:text-[11px] text-slate-400 font-bold tracking-[0.25em] uppercase mt-2">
-                  Coming Soon
-                </p>
-              </div>
+            <div className="flex-1 w-full h-full relative z-10 flex flex-col">
+              <BuilderView />
             </div>
           )}
         </main>
 
-        <aside className="shrink-0 w-[400px] xl:w-[500px] 2xl:w-[600px] h-full z-30 relative shadow-2xl">
-          <DetailPanel role={selectedRole} />
-        </aside>
+        {activeTab === 'visualizer' && (
+          <aside className="shrink-0 w-[400px] xl:w-[500px] 2xl:w-[600px] h-full z-30 relative shadow-2xl">
+            <DetailPanel role={selectedRole} />
+          </aside>
+        )}
       </div>
 
       <div className="lg:hidden h-full">

@@ -22,3 +22,9 @@ export interface HexagonProps {
   onClick: (role: CreditRole) => void;
   className?: string;
 }
+
+export interface Contributor {
+  id: string;
+  name: string;
+  roles: string[];
+}
