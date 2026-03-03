@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Contributor } from '../../../types';
 import { creditRoles } from '../../../data/roles';
 
@@ -7,10 +7,11 @@ interface TableViewProps {
 }
 
 export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
-    // Filter to only show roles that have been assigned to at least one author
-    const activeRoles = creditRoles.filter(role =>
-        contributors.some(c => c.roles.includes(role.id))
-    );
+    // Only show roles that have been assigned to at least one contributor
+    const activeRoles = useMemo(() => {
+        const usedRoleIds = new Set(contributors.flatMap(c => c.roles));
+        return creditRoles.filter(role => usedRoleIds.has(role.id));
+    }, [contributors]);
 
     return (
         <div className="w-full max-h-[65vh] overflow-x-auto overflow-y-auto border-t-2 border-b-2 border-slate-800 bg-white custom-scrollbar pb-0 relative">
@@ -50,6 +51,11 @@ export const TableView: React.FC<TableViewProps> = ({ contributors }) => {
                     ))}
                 </tbody>
             </table>
+            {activeRoles.length === 0 && contributors.length > 0 && (
+                <div className="text-center py-8 text-slate-400 text-sm italic">
+                    No roles assigned yet. Use the Matrix Grid view to assign roles.
+                </div>
+            )}
         </div>
     );
 };

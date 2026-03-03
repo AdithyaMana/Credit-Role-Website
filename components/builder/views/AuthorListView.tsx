@@ -16,27 +16,17 @@ export const AuthorListView: React.FC<AuthorListViewProps> = ({ contributors }) 
             </h3>
             <div className="space-y-4 font-serif text-[15px] leading-relaxed text-slate-800">
                 {contributors.map(contributor => {
-                    const authorRoles = contributor.roles
-                        .map(roleId => creditRoles.find(r => r.id === roleId))
+                    const authorRoleTitles = contributor.roles
+                        .map(roleId => creditRoles.find(r => r.id === roleId)?.title)
                         .filter(Boolean);
 
                     return (
                         <div key={contributor.id}>
                             <strong className="font-sans font-semibold text-slate-900">{contributor.name}:</strong>{' '}
-                            {authorRoles.length > 0 ? (
-                                <div className="inline-flex flex-wrap items-center gap-2">
-                                    {authorRoles.map(role => {
-                                        const Icon = role!.icon;
-                                        return (
-                                            <span key={role!.id} className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium border border-slate-200">
-                                                <Icon size={12} strokeWidth={2} />
-                                                <span>{role!.title}</span>
-                                            </span>
-                                        );
-                                    })}
-                                </div>
+                            {authorRoleTitles.length > 0 ? (
+                                <span>{authorRoleTitles.join(', ')}.</span>
                             ) : (
-                                <span className="italic text-slate-400 text-sm">No roles specified.</span>
+                                <span className="italic text-slate-400">No roles specified.</span>
                             )}
                         </div>
                     );
