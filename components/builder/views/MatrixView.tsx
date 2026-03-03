@@ -12,13 +12,7 @@ interface MatrixViewProps {
 }
 
 const getCategoryColorText = (category: CategoryType) => {
-    switch (category) {
-        case CategoryType.STRATEGY: return 'text-indigo-600';
-        case CategoryType.RESEARCH: return 'text-teal-600';
-        case CategoryType.INFRASTRUCTURE: return 'text-slate-600';
-        case CategoryType.DISSEMINATION: return 'text-orange-600';
-        default: return 'text-slate-600';
-    }
+    return 'text-slate-700';
 };
 
 export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateName, onToggleRole, onRemove }) => {
@@ -63,18 +57,18 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
 
             <div className="w-full max-h-[65vh] overflow-x-auto overflow-y-auto shadow-sm border border-slate-200 rounded-xl bg-white custom-scrollbar pb-0 relative">
                 <table className="min-w-full divide-y divide-slate-200 border-collapse">
-                    <thead className="bg-slate-50 sticky top-0 z-30 shadow-sm">
+                    <thead className="bg-white sticky top-0 z-30 shadow-sm border-b-2 border-slate-800">
                         {!isTransposed ? (
                             <tr>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider sticky top-0 left-0 z-40 bg-slate-50 border-r border-b border-slate-200 shadow-[1px_0_0_0_#e2e8f0]">
+                                <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-slate-800 uppercase tracking-wider sticky top-0 left-0 z-40 bg-white border-r-2 border-b-2 border-slate-800">
                                     Contributor
                                 </th>
                                 {creditRoles.map(role => {
                                     const Icon = role.icon;
                                     return (
-                                        <th key={role.id} scope="col" className="px-3 py-4 text-center min-w-[70px] bg-slate-50 sticky top-0 z-30 border-b border-slate-200">
+                                        <th key={role.id} scope="col" className="px-3 py-4 text-center min-w-[70px] bg-white sticky top-0 z-30 border-b-2 border-slate-800 border-l border-slate-200">
                                             <div className="flex flex-col items-center gap-2 group relative" title={role.title}>
-                                                <Icon size={20} className={getCategoryColorText(role.category)} strokeWidth={2} />
+                                                <Icon size={20} className="text-slate-800" strokeWidth={2} />
                                                 <span className="hidden opacity-0 group-hover:opacity-100 absolute bottom-full mb-2 bg-slate-800 text-white text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded transition-opacity whitespace-nowrap z-30">
                                                     {role.title}
                                                 </span>
@@ -85,11 +79,11 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                             </tr>
                         ) : (
                             <tr>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider sticky top-0 left-0 z-40 bg-slate-50 border-r border-b border-slate-200 shadow-[1px_0_0_0_#e2e8f0]">
+                                <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-slate-800 uppercase tracking-wider sticky top-0 left-0 z-40 bg-white border-r-2 border-b-2 border-slate-800">
                                     Role
                                 </th>
                                 {contributors.map(contributor => (
-                                    <th key={contributor.id} scope="col" className="px-3 py-4 text-center min-w-[140px] bg-slate-50 sticky top-0 z-30 border-b border-slate-200 group">
+                                    <th key={contributor.id} scope="col" className="px-3 py-4 text-center min-w-[140px] bg-white sticky top-0 z-30 border-b-2 border-slate-800 group">
                                         <div className="flex items-center justify-center gap-1 relative w-full h-full">
                                             <input
                                                 type="text"
@@ -114,8 +108,8 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                     <tbody className="bg-white divide-y divide-slate-100 font-sans">
                         {!isTransposed ? (
                             contributors.map(contributor => (
-                                <tr key={contributor.id} className="hover:bg-slate-50 transition-colors group">
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-slate-800 sticky left-0 z-20 bg-white border-r border-slate-100 group-hover:bg-slate-50 transition-colors shadow-[1px_0_0_0_#f1f5f9]">
+                                <tr key={contributor.id} className="hover:bg-slate-50 transition-colors group border-b border-slate-100">
+                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-slate-800 sticky left-0 z-20 bg-white border-r-2 border-slate-800 group-hover:bg-slate-50 transition-colors">
                                         <div className="flex items-center gap-2">
                                             <input
                                                 type="text"
@@ -139,18 +133,18 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                         return (
                                             <td
                                                 key={role.id}
-                                                className="px-3 py-4 whitespace-nowrap text-center cursor-pointer hover:bg-indigo-50/50 transition-colors"
+                                                className="px-3 py-4 whitespace-nowrap text-center cursor-pointer hover:bg-slate-100 transition-colors border-l border-slate-200"
                                                 onMouseDown={() => handleMouseDown(contributor.id, role.id, hasRole)}
                                                 onMouseEnter={() => handleMouseEnter(contributor.id, role.id, hasRole)}
                                             >
                                                 {hasRole ? (
                                                     <div className="w-full flex justify-center pointer-events-none">
-                                                        <div className="w-6 h-6 rounded bg-slate-50 flex items-center justify-center border border-slate-200 shadow-sm scale-110 transition-transform">
-                                                            <Icon size={14} className={getCategoryColorText(role.category)} strokeWidth={3} />
+                                                        <div className="w-6 h-6 flex items-center justify-center scale-110 transition-transform">
+                                                            <Icon size={16} className="text-slate-900" strokeWidth={3} />
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <span className="text-slate-200/50 block group-hover:text-slate-300 pointer-events-none">—</span>
+                                                    <span className="text-slate-300 block group-hover:text-slate-400 pointer-events-none">—</span>
                                                 )}
                                             </td>
                                         );
@@ -162,9 +156,9 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                 const Icon = role.icon;
                                 return (
                                     <tr key={role.id} className="hover:bg-slate-50 transition-colors group">
-                                        <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-slate-800 sticky left-0 z-20 bg-white border-r border-slate-100 group-hover:bg-slate-50 transition-colors shadow-[1px_0_0_0_#f1f5f9]">
+                                        <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-slate-800 sticky left-0 z-20 bg-white border-r-2 border-slate-800 group-hover:bg-slate-50 transition-colors">
                                             <div className="flex items-center gap-3">
-                                                <Icon size={16} className={getCategoryColorText(role.category)} strokeWidth={2} />
+                                                <Icon size={16} className="text-slate-800" strokeWidth={2} />
                                                 <span>{role.title}</span>
                                             </div>
                                         </td>
@@ -173,7 +167,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({ contributors, onUpdateNa
                                             return (
                                                 <td
                                                     key={contributor.id}
-                                                    className="px-3 py-4 whitespace-nowrap text-center cursor-pointer hover:bg-indigo-50/50 transition-colors"
+                                                    className="px-3 py-4 whitespace-nowrap text-center cursor-pointer hover:bg-slate-100 transition-colors border-l border-slate-200"
                                                     onMouseDown={() => handleMouseDown(contributor.id, role.id, hasRole)}
                                                     onMouseEnter={() => handleMouseEnter(contributor.id, role.id, hasRole)}
                                                 >
