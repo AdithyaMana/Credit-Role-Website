@@ -47,30 +47,24 @@ const App: React.FC = () => {
                 <img src={scienceUXLogoUrl} alt="ScienceUX Logo" className="h-10 w-auto opacity-100" />
               </a>
 
-              <div className="flex bg-slate-200/50 backdrop-blur rounded-full p-1 ml-4 border border-slate-200/50">
+              {activeTab === 'builder' && (
                 <button
                   onClick={() => setActiveTab('visualizer')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${activeTab === 'visualizer' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                  className="ml-4 px-4 py-2 bg-white/80 backdrop-blur-md border border-slate-200 rounded-full shadow-sm text-[11px] font-bold uppercase tracking-wider text-slate-500 hover:text-indigo-600 transition-all flex items-center gap-2"
                 >
-                  Taxonomy Visualizer
+                  ← Back to Taxonomy
                 </button>
-                <button
-                  onClick={() => setActiveTab('builder')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${activeTab === 'builder' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                >
-                  CRediT Builder
-                </button>
-              </div>
+              )}
             </div>
 
             <div className="flex items-center gap-3 pointer-events-auto">
               <a
                 href={spreadsheetUrl}
-                download="Credit-Role-Icons-Spreadsheet.png"
+                download="Credit-Role-Icons-Cheatsheet.png"
                 className="flex items-center gap-2 px-4 py-2 bg-indigo-50/80 backdrop-blur-md border border-indigo-100 rounded-full shadow-sm text-[11px] font-bold uppercase tracking-wider text-indigo-600 hover:bg-indigo-100 transition-all group"
               >
                 <Download size={16} className="text-indigo-400 group-hover:text-indigo-600 transition-colors" />
-                <span>Spreadsheet</span>
+                <span>Cheatsheet</span>
               </a>
 
               <button
@@ -100,6 +94,12 @@ const App: React.FC = () => {
                 <p className="text-[10px] xl:text-[11px] text-slate-400 font-bold tracking-[0.25em] uppercase mt-2">
                   Contributor Roles Taxonomy
                 </p>
+                <button
+                  onClick={() => setActiveTab('builder')}
+                  className="mt-6 px-6 py-2.5 bg-indigo-600 text-white rounded-full font-bold uppercase tracking-wider text-xs shadow-md shadow-indigo-200 hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all"
+                >
+                  Build Now
+                </button>
               </div>
 
               <div className="flex-1 w-full flex items-center justify-center overflow-hidden min-h-0">

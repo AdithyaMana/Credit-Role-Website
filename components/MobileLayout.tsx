@@ -166,14 +166,22 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ onOpenShowcase, onOp
           <a href="https://scienceux.org/" target="_blank" rel="noopener noreferrer">
             <img src={scienceUXLogoUrl} alt="ScienceUX Logo" className="h-8 md:h-10 w-auto drop-shadow-sm object-contain" />
           </a>
+          {mobileTab === 'builder' && (
+            <button
+              onClick={() => setMobileTab('roles')}
+              className="px-3 py-1.5 bg-white/80 backdrop-blur-md border border-slate-200 rounded-full shadow-sm text-[10px] font-bold uppercase tracking-wider text-slate-500 hover:text-indigo-600 transition-all flex items-center gap-1"
+            >
+              ← Back
+            </button>
+          )}
         </div>
 
         <div className="flex gap-2 shrink-0 pointer-events-auto">
           <a
             href={spreadsheetUrl}
-            download="Credit-Role-Icons-Spreadsheet.png"
+            download="Credit-Role-Icons-Cheatsheet.png"
             className="p-3 bg-indigo-50/80 backdrop-blur border border-indigo-100 text-indigo-500 rounded-full hover:bg-indigo-100 hover:text-indigo-600 transition-all shadow-sm"
-            aria-label="Download Spreadsheet"
+            aria-label="Download Cheatsheet"
           >
             <Download size={20} />
           </a>
@@ -208,6 +216,13 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ onOpenShowcase, onOp
                 <p className="text-[10px] md:text-xs text-slate-400 font-bold tracking-[0.3em] uppercase mt-4">
                   Contributor Roles Taxonomy
                 </p>
+                <button
+                  onClick={() => setMobileTab('builder')}
+                  className="mt-8 px-8 py-3 bg-indigo-600 text-white rounded-full font-bold uppercase tracking-wider text-sm shadow-md shadow-indigo-200 hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all text-shadow-sm inline-flex items-center gap-2"
+                >
+                  <LayoutGrid size={18} />
+                  Build Now
+                </button>
               </motion.div>
             </div>
 
@@ -266,31 +281,6 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ onOpenShowcase, onOp
         )}
       </main>
 
-      {/* --- BOTTOM TAB BAR --- */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
-        <div className="flex">
-          <button
-            onClick={() => setMobileTab('roles')}
-            className={clsx(
-              'flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-bold uppercase tracking-wider transition-colors',
-              mobileTab === 'roles' ? 'text-indigo-600' : 'text-slate-400'
-            )}
-          >
-            <List size={20} />
-            <span>Roles</span>
-          </button>
-          <button
-            onClick={() => setMobileTab('builder')}
-            className={clsx(
-              'flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-bold uppercase tracking-wider transition-colors',
-              mobileTab === 'builder' ? 'text-indigo-600' : 'text-slate-400'
-            )}
-          >
-            <LayoutGrid size={20} />
-            <span>Builder</span>
-          </button>
-        </div>
-      </div>
 
       {/* --- DRAWER FOR MOBILE DETAIL VIEW --- */}
       <DetailDrawer role={selectedRole} onClose={() => setSelectedRole(null)} />
